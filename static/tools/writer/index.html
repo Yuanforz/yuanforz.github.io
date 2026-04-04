@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hugo 写作助手</title>
+  <style>
+    :root {
+      --bg-0: #f6f4ef;
+      --bg-1: #fdfaf3;
+      --ink: #1f1b16;
+      --muted: #6a6157;
+      --accent: #d35400;
+      --accent-2: #176b87;
+      --line: #d8cbb9;
+      --card: #fffdf8;
+      --ok: #2b7a0b;
+      --warn: #9a3412;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "IBM Plex Sans", "Noto Sans SC", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 90% 8%, rgba(211, 84, 0, 0.12), transparent 28%),
+        radial-gradient(circle at 10% 92%, rgba(23, 107, 135, 0.16), transparent 26%),
+        linear-gradient(160deg, var(--bg-0), var(--bg-1));
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 20px 40px;
+      display: grid;
+      gap: 16px;
+    }
+
+    .title {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px 18px;
+      box-shadow: 0 8px 24px rgba(60, 45, 30, 0.07);
+      animation: rise-in 280ms ease-out;
+    }
+
+    .title h1 {
+      margin: 0;
+      font-size: clamp(1.1rem, 2.4vw, 1.7rem);
+      letter-spacing: 0.01em;
+    }
+
+    .title p {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 340px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: 0 6px 20px rgba(60, 45, 30, 0.06);
+      animation: rise-in 360ms ease-out;
+    }
+
+    .card h2 {
+      margin: 0 0 10px;
+      font-size: 1rem;
+    }
+
+    label {
+      display: block;
+      font-size: 0.88rem;
+      margin: 8px 0 4px;
+      color: var(--muted);
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 9px 10px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 420px;
+      resize: vertical;
+      font-family: "IBM Plex Mono", "Consolas", monospace;
+      font-size: 0.92rem;
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .checks {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    .checks label {
+      margin: 0;
+      color: var(--ink);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+    }
+
+    .checks input {
+      width: auto;
+      margin: 0;
+    }
+
+    .toolbox {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--ink);
+      border-radius: 10px;
+      padding: 8px 11px;
+      font: inherit;
+      cursor: pointer;
+      transition: transform 120ms ease, box-shadow 120ms ease, border-color 120ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(20, 20, 20, 0.08);
+      border-color: #bda98f;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #f59e0b, #d35400);
+      color: #fff;
+      border-color: #c74f00;
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #2e86ab, #176b87);
+      color: #fff;
+      border-color: #155d75;
+    }
+
+    .status {
+      margin-top: 10px;
+      font-size: 0.88rem;
+      min-height: 1.2em;
+    }
+
+    .status.ok {
+      color: var(--ok);
+    }
+
+    .status.warn {
+      color: var(--warn);
+    }
+
+    .hint {
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.83rem;
+    }
+
+    .target {
+      margin-top: 10px;
+      border: 1px dashed var(--line);
+      border-radius: 10px;
+      padding: 8px;
+      font-family: "IBM Plex Mono", "Consolas", monospace;
+      font-size: 0.82rem;
+      background: #fff;
+      word-break: break-all;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    @keyframes rise-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (max-width: 950px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      textarea {
+        min-height: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="title">
+      <h1>Hugo 本地写作助手</h1>
+      <p>用于生成博客 Markdown 文件，支持中英双语、Front Matter 与 LaTeX 公式片段。</p>
+    </section>
+
+    <section class="grid">
+      <aside class="card">
+        <h2>文章元数据</h2>
+
+        <label for="title">标题</label>
+        <input id="title" type="text" placeholder="例如：数学公式渲染测试">
+
+        <div class="row">
+          <div>
+            <label for="lang">语言</label>
+            <select id="lang">
+              <option value="zh">中文 zh</option>
+              <option value="en">English en</option>
+            </select>
+          </div>
+          <div>
+            <label for="slug">Slug</label>
+            <input id="slug" type="text" placeholder="math-notes">
+          </div>
+        </div>
+
+        <label for="summary">摘要</label>
+        <input id="summary" type="text" placeholder="一句话摘要，用于列表展示">
+
+        <label for="tags">标签（英文逗号分隔）</label>
+        <input id="tags" type="text" placeholder="math,katex,hugo">
+
+        <div class="checks">
+          <label><input id="draft" type="checkbox"> 草稿</label>
+          <label><input id="math" type="checkbox"> 启用公式渲染</label>
+        </div>
+
+        <h2 style="margin-top: 14px;">公式快捷片段</h2>
+        <div class="toolbox">
+          <button type="button" data-snippet="$E = mc^2$">行内</button>
+          <button type="button" data-snippet="$$\n\\int_{0}^{1} x^2 dx = \\frac{1}{3}\n$$">积分</button>
+          <button type="button" data-snippet="$$\n\\frac{a}{b}\n$$">分式</button>
+          <button type="button" data-snippet="$$\nA = \\begin{bmatrix}\n1 & 2 \\\\ \n3 & 4\n\\end{bmatrix}\n$$">矩阵</button>
+        </div>
+
+        <div class="hint">提示：写完后可直接保存到 content/posts，或回退下载 .md 文件。</div>
+      </aside>
+
+      <section class="card">
+        <h2>Markdown 正文</h2>
+        <textarea id="body" placeholder="在这里编写正文..."></textarea>
+
+        <div class="target" id="targetPath">目标文件: content/posts/untitled.zh.md</div>
+
+        <div class="actions">
+          <button type="button" id="pickDir">选择 content/posts 目录</button>
+          <button type="button" id="save" class="btn-primary">保存 Markdown</button>
+          <button type="button" id="download">下载 Markdown</button>
+          <button type="button" id="openPreview" class="btn-secondary">打开本地预览</button>
+          <button type="button" id="copyAll">复制全文</button>
+        </div>
+
+        <label for="previewBase">本地预览地址</label>
+        <input id="previewBase" type="text" value="http://localhost:1313" placeholder="http://localhost:1313">
+
+        <div class="status" id="status"></div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const titleInput = document.getElementById("title");
+    const langInput = document.getElementById("lang");
+    const slugInput = document.getElementById("slug");
+    const summaryInput = document.getElementById("summary");
+    const tagsInput = document.getElementById("tags");
+    const draftInput = document.getElementById("draft");
+    const mathInput = document.getElementById("math");
+    const bodyInput = document.getElementById("body");
+    const targetPath = document.getElementById("targetPath");
+    const previewBase = document.getElementById("previewBase");
+    const statusEl = document.getElementById("status");
+
+    const pickDirBtn = document.getElementById("pickDir");
+    const saveBtn = document.getElementById("save");
+    const downloadBtn = document.getElementById("download");
+    const openPreviewBtn = document.getElementById("openPreview");
+    const copyAllBtn = document.getElementById("copyAll");
+
+    let postsDirHandle = null;
+
+    function slugify(text) {
+      return text
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "") || "untitled";
+    }
+
+    function nowIsoWithOffset() {
+      const now = new Date();
+      const tzOffset = -now.getTimezoneOffset();
+      const sign = tzOffset >= 0 ? "+" : "-";
+      const hours = String(Math.floor(Math.abs(tzOffset) / 60)).padStart(2, "0");
+      const mins = String(Math.abs(tzOffset) % 60).padStart(2, "0");
+      const iso = now.toISOString().slice(0, 19);
+      return `${iso}${sign}${hours}:${mins}`;
+    }
+
+    function splitTags(raw) {
+      return raw
+        .split(",")
+        .map((x) => x.trim())
+        .filter(Boolean);
+    }
+
+    function getSlug() {
+      const manual = slugInput.value.trim();
+      if (manual) {
+        return slugify(manual);
+      }
+      return slugify(titleInput.value || "untitled");
+    }
+
+    function getLang() {
+      return langInput.value === "en" ? "en" : "zh";
+    }
+
+    function getFileName() {
+      const slug = getSlug();
+      return `${slug}.${getLang()}.md`;
+    }
+
+    function updateTargetPath() {
+      targetPath.textContent = `目标文件: content/posts/${getFileName()}`;
+    }
+
+    function buildMarkdown() {
+      const title = titleInput.value.trim() || "Untitled";
+      const slug = getSlug();
+      const lang = getLang();
+      const summary = summaryInput.value.trim();
+      const tags = splitTags(tagsInput.value);
+      const draft = draftInput.checked;
+      const math = mathInput.checked;
+      const translationKey = slug;
+
+      const frontMatter = [
+        "+++",
+        `title = \"${title.replace(/\"/g, '\\\"')}\"`,
+        `date = ${nowIsoWithOffset()}`,
+        `slug = \"${slug}\"`,
+        `translationKey = \"${translationKey}\"`,
+        `summary = \"${summary.replace(/\"/g, '\\\"')}\"`,
+        `tags = [${tags.map((t) => `\"${t.replace(/\"/g, '\\\"')}\"`).join(", ")}]`,
+        `draft = ${draft ? "true" : "false"}`,
+        `math = ${math ? "true" : "false"}`,
+        "+++",
+        ""
+      ];
+
+      const body = bodyInput.value.trim();
+      const placeholder = lang === "zh" ? "在这里继续写正文。" : "Continue writing here.";
+
+      return `${frontMatter.join("\n")}\n${body || placeholder}\n`;
+    }
+
+    function setStatus(message, level = "ok") {
+      statusEl.textContent = message;
+      statusEl.className = `status ${level}`;
+    }
+
+    async function saveWithDirectoryApi() {
+      if (!postsDirHandle) {
+        setStatus("尚未选择目录，已改用下载方式。", "warn");
+        triggerDownload();
+        return;
+      }
+
+      const markdown = buildMarkdown();
+      const fileHandle = await postsDirHandle.getFileHandle(getFileName(), { create: true });
+      const writable = await fileHandle.createWritable();
+      await writable.write(markdown);
+      await writable.close();
+      setStatus(`已保存: content/posts/${getFileName()}`);
+    }
+
+    function triggerDownload() {
+      const markdown = buildMarkdown();
+      const blob = new Blob([markdown], { type: "text/markdown;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = getFileName();
+      a.click();
+      URL.revokeObjectURL(url);
+      setStatus(`已下载: ${getFileName()}`);
+    }
+
+    function previewUrl() {
+      const base = (previewBase.value || "http://localhost:1313").replace(/\/$/, "");
+      const lang = getLang();
+      const slug = getSlug();
+      return `${base}/${lang}/posts/${slug}/`;
+    }
+
+    titleInput.addEventListener("input", updateTargetPath);
+    langInput.addEventListener("change", updateTargetPath);
+    slugInput.addEventListener("input", updateTargetPath);
+
+    document.querySelectorAll("[data-snippet]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const snippet = btn.getAttribute("data-snippet") || "";
+        const start = bodyInput.selectionStart;
+        const end = bodyInput.selectionEnd;
+        const before = bodyInput.value.slice(0, start);
+        const after = bodyInput.value.slice(end);
+        bodyInput.value = `${before}${snippet}${after}`;
+        bodyInput.focus();
+        const cursor = start + snippet.length;
+        bodyInput.setSelectionRange(cursor, cursor);
+      });
+    });
+
+    pickDirBtn.addEventListener("click", async () => {
+      if (!window.showDirectoryPicker) {
+        setStatus("当前浏览器不支持目录写入，请使用下载方式。", "warn");
+        return;
+      }
+
+      try {
+        postsDirHandle = await window.showDirectoryPicker();
+        setStatus("目录已选择，可以直接保存。", "ok");
+      } catch (err) {
+        if (err && err.name === "AbortError") {
+          return;
+        }
+        setStatus(`目录选择失败: ${err.message || err}`, "warn");
+      }
+    });
+
+    saveBtn.addEventListener("click", async () => {
+      try {
+        await saveWithDirectoryApi();
+      } catch (err) {
+        setStatus(`保存失败，已建议改用下载: ${err.message || err}`, "warn");
+      }
+    });
+
+    downloadBtn.addEventListener("click", () => {
+      triggerDownload();
+    });
+
+    openPreviewBtn.addEventListener("click", () => {
+      const url = previewUrl();
+      window.open(url, "_blank", "noopener");
+      setStatus(`已打开预览: ${url}`);
+    });
+
+    copyAllBtn.addEventListener("click", async () => {
+      const markdown = buildMarkdown();
+      try {
+        await navigator.clipboard.writeText(markdown);
+        setStatus("已复制完整 Markdown 到剪贴板。", "ok");
+      } catch (err) {
+        setStatus(`复制失败: ${err.message || err}`, "warn");
+      }
+    });
+
+    updateTargetPath();
+    setStatus("准备就绪。建议先启动 hugo server -D，再打开预览。", "ok");
+  </script>
+</body>
+</html>

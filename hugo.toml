@@ -1,0 +1,100 @@
+baseURL = "https://yuanforz.github.io/"
+title = "YuanForz"
+theme = "PaperMod"
+defaultContentLanguage = "zh"
+defaultContentLanguageInSubdir = true
+enableRobotsTXT = true
+hasCJKLanguage = true
+paginate = 10
+timeZone = "Asia/Shanghai"
+
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
+[taxonomies]
+  tag = "tags"
+
+[permalinks]
+  posts = "/posts/:slug/"
+
+[params]
+  env = "production"
+  ShowReadingTime = true
+  ShowCodeCopyButtons = true
+  ShowToc = true
+  ShowPostNavLinks = true
+  ShowBreadCrumbs = true
+  math = false
+
+[languages.zh]
+  languageName = "中文"
+  weight = 1
+  title = "YuanForz"
+
+[languages.zh.params]
+  description = "个人主页与技术博客"
+
+[[languages.zh.menu.main]]
+  identifier = "home"
+  name = "首页"
+  url = "/zh/"
+  weight = 10
+
+[[languages.zh.menu.main]]
+  identifier = "posts"
+  name = "博客"
+  url = "/zh/posts/"
+  weight = 20
+
+[[languages.zh.menu.main]]
+  identifier = "about"
+  name = "关于"
+  url = "/zh/about/"
+  weight = 30
+
+[[languages.zh.menu.main]]
+  identifier = "writer"
+  name = "写作工具"
+  url = "/tools/writer/"
+  weight = 40
+
+[languages.en]
+  languageName = "English"
+  weight = 2
+  title = "YuanForz"
+
+[languages.en.params]
+  description = "Personal homepage and technical blog"
+
+[[languages.en.menu.main]]
+  identifier = "home"
+  name = "Home"
+  url = "/en/"
+  weight = 10
+
+[[languages.en.menu.main]]
+  identifier = "posts"
+  name = "Posts"
+  url = "/en/posts/"
+  weight = 20
+
+[[languages.en.menu.main]]
+  identifier = "about"
+  name = "About"
+  url = "/en/about/"
+  weight = 30
+
+[[languages.en.menu.main]]
+  identifier = "writer"
+  name = "Writer"
+  url = "/tools/writer/"
+  weight = 40
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+  [markup.highlight]
+    noClasses = false
+    lineNos = false
+    style = "github"
