@@ -57,7 +57,7 @@ timeZone = "Asia/Shanghai"
 [[languages.zh.menu.main]]
   identifier = "writer"
   name = "写作工具"
-  url = "/tools/writer/"
+  url = "/writer/"
   weight = 40
 
 [languages.en]
@@ -89,7 +89,7 @@ timeZone = "Asia/Shanghai"
 [[languages.en.menu.main]]
   identifier = "writer"
   name = "Writer"
-  url = "/tools/writer/"
+  url = "/writer/"
   weight = 40
 
 [markup]
