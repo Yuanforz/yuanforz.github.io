@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="CS 180 Project 0 — Becoming Friends with Your Camera.">
+    <meta name="theme-color" content="#f2efe6">
+    <title>Project 0 — Becoming Friends with Your Camera</title>
+    <link rel="stylesheet" href="./style.css">
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+
+    <header class="site-header" aria-label="Project header">
+      <a class="wordmark" href="#top" aria-label="Back to top">YF<span>—</span>26</a>
+      <p>CS 180 / 280A</p>
+      <p>Computational Photography</p>
+      <p class="header-index">Project <span>00</span></p>
+    </header>
+
+    <main id="main-content">
+      <section class="hero" id="top" aria-labelledby="project-title">
+        <div class="hero-marker" aria-hidden="true">
+          <span>Perspective</span>
+          <span>Focal length</span>
+          <span>Center of projection</span>
+        </div>
+
+        <div class="hero-title">
+          <p class="eyebrow">Programming Project 00</p>
+          <h1 id="project-title">
+            <span>Becoming<br class="mobile-break"> Friends</span>
+            <span class="blue">With Your<br class="mobile-break"> Camera</span>
+          </h1>
+        </div>
+
+        <div class="hero-meta">
+          <p class="project-code">P<span>0</span></p>
+          <div class="hero-intro">
+            <p>
+              Three small studies of how camera position and focal length shape
+              the way space appears in a photograph.
+            </p>
+            <p class="byline">Yuan · Fall 2026</p>
+          </div>
+        </div>
+      </section>
+
+      <nav class="project-nav" aria-label="Project sections">
+        <a href="#part-1"><span>01</span> Portrait</a>
+        <a href="#part-2"><span>02</span> Architecture</a>
+        <a href="#part-3"><span>03</span> Dolly zoom</a>
+      </nav>
+
+      <section class="project-section" id="part-1" aria-labelledby="part-1-title">
+        <header class="section-heading">
+          <p class="section-number">01 <span>/ 03</span></p>
+          <div>
+            <p class="eyebrow">Distance changes perspective</p>
+            <h2 id="part-1-title">The Wrong Way<br><span>vs. The Right Way</span></h2>
+          </div>
+        </header>
+
+        <div class="section-copy">
+          <p class="lead">
+            A close portrait exaggerates the depth between facial features. By
+            stepping back and zooming in, the framing stays similar while the
+            perspective becomes more natural.
+          </p>
+          <p>
+            The camera-to-subject distance determines perspective; focal length
+            controls how tightly that perspective is framed.
+          </p>
+        </div>
+
+        <div class="comparison-grid">
+          <figure class="photo-card">
+            <!-- Replace the placeholder below with:
+                 <img src="./media/portrait-close.jpg" alt="Close-up portrait"> -->
+            <div class="media-placeholder portrait" role="img" aria-label="Placeholder for the close-up portrait"></div>
+            <figcaption>
+              <span>01.A</span>
+              <strong>Close / wide</strong>
+              <span>Distorted perspective</span>
+            </figcaption>
+          </figure>
+
+          <figure class="photo-card offset-card">
+            <!-- Replace the placeholder below with:
+                 <img src="./media/portrait-zoom.jpg" alt="Portrait taken from farther away with zoom"> -->
+            <div class="media-placeholder portrait" role="img" aria-label="Placeholder for the portrait taken from farther away with zoom"></div>
+            <figcaption>
+              <span>01.B</span>
+              <strong>Far / zoomed</strong>
+              <span>Compressed perspective</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <aside class="observation" aria-label="Part one observation">
+          <span>Observation 01</span>
+          <p>Same face size. Different camera position. A visibly different portrait.</p>
+        </aside>
+      </section>
+
+      <section class="project-section architecture" id="part-2" aria-labelledby="part-2-title">
+        <header class="section-heading">
+          <p class="section-number">02 <span>/ 03</span></p>
+          <div>
+            <p class="eyebrow">Space can look flatter</p>
+            <h2 id="part-2-title">Architectural<br><span>Perspective Compression</span></h2>
+          </div>
+        </header>
+
+        <div class="section-copy">
+          <p class="lead">
+            The same framing can describe space in two very different ways.
+            From far away, zoom draws distant layers together; from nearby, a
+            wide view restores a stronger sense of depth.
+          </p>
+        </div>
+
+        <div class="architecture-grid">
+          <figure class="photo-card wide-card">
+            <!-- Replace the placeholder below with:
+                 <img src="./media/architecture-zoom.jpg" alt="Long street photographed from far away with zoom"> -->
+            <div class="media-placeholder landscape" role="img" aria-label="Placeholder for the zoomed architectural photograph"></div>
+            <figcaption>
+              <span>02.A</span>
+              <strong>Far / zoomed</strong>
+              <span>Flattened space</span>
+            </figcaption>
+          </figure>
+
+          <figure class="photo-card wide-card second-wide-card">
+            <!-- Replace the placeholder below with:
+                 <img src="./media/architecture-near.jpg" alt="The same street photographed from nearby without zoom"> -->
+            <div class="media-placeholder landscape" role="img" aria-label="Placeholder for the nearby architectural photograph"></div>
+            <figcaption>
+              <span>02.B</span>
+              <strong>Near / wide</strong>
+              <span>Expanded depth</span>
+            </figcaption>
+          </figure>
+        </div>
+
+        <aside class="observation observation-blue" aria-label="Part two observation">
+          <span>Observation 02</span>
+          <p>Moving through the scene changes the spatial relationships; zoom alone does not.</p>
+        </aside>
+      </section>
+
+      <section class="project-section dolly" id="part-3" aria-labelledby="part-3-title">
+        <header class="section-heading">
+          <p class="section-number">03 <span>/ 03</span></p>
+          <div>
+            <p class="eyebrow">Move back · Zoom in</p>
+            <h2 id="part-3-title">The Dolly Zoom</h2>
+          </div>
+        </header>
+
+        <div class="dolly-intro">
+          <p class="lead">
+            The subject remains nearly fixed while the world behind it changes.
+            Each step backward is paired with a tighter focal length, producing
+            the classic “Vertigo” effect.
+          </p>
+          <ol class="method" aria-label="Dolly zoom method">
+            <li><span>01</span>Frame the subject</li>
+            <li><span>02</span>Step backward</li>
+            <li><span>03</span>Zoom to match</li>
+            <li><span>04</span>Repeat &amp; animate</li>
+          </ol>
+        </div>
+
+        <figure class="dolly-result">
+          <!-- Replace the placeholder below with:
+               <img src="./media/dolly-zoom.gif" alt="Animated dolly zoom sequence"> -->
+          <div class="media-placeholder gif" role="img" aria-label="Placeholder for the animated dolly zoom GIF">
+            <span>Animated sequence</span>
+            <strong>GIF / 4–8+ frames</strong>
+          </div>
+          <figcaption>
+            <span>03.A</span>
+            <strong>Final dolly zoom</strong>
+            <span>Subject scale held approximately constant</span>
+          </figcaption>
+        </figure>
+
+        <div class="contact-sheet" aria-hidden="true">
+          <div><span>F.01</span></div>
+          <div><span>F.02</span></div>
+          <div><span>F.03</span></div>
+          <div><span>F.04</span></div>
+          <div><span>F.05</span></div>
+          <div><span>F.06</span></div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>CS 180 / 280A</p>
+      <p>Project 00</p>
+      <p>Yuan · 2026</p>
+      <a href="#top">Back to top ↑</a>
+    </footer>
+  </body>
+</html>
