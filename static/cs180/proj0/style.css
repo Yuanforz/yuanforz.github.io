@@ -335,7 +335,12 @@ h2 span {
   width: 100%;
   border: var(--border);
   background-color: transparent;
-  object-fit: cover;
+}
+
+.photo-card img {
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
 }
 
 .media-placeholder {
