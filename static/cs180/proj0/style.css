@@ -421,7 +421,7 @@ figcaption span:last-child {
 
 .architecture-grid {
   display: grid;
-  grid-template-columns: 7fr 5fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: clamp(1.5rem, 4vw, 5rem);
   align-items: end;
 }
@@ -478,6 +478,12 @@ figcaption span:last-child {
   margin: 0;
 }
 
+.dolly-result > img {
+  height: min(78vh, 54rem);
+  background: var(--blue);
+  object-fit: contain;
+}
+
 .gif {
   display: grid;
   place-content: center;
@@ -515,23 +521,35 @@ figcaption span:last-child {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   margin: clamp(4rem, 9vw, 9rem) calc(-1 * var(--page-gutter)) 0;
+  padding: 0;
   border-top: var(--border);
+  list-style: none;
 }
 
-.contact-sheet div {
+.contact-sheet li {
   position: relative;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
   border-right: var(--border);
 }
 
-.contact-sheet div:last-child {
+.contact-sheet li:last-child {
   border-right: 0;
+}
+
+.contact-sheet img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .contact-sheet span {
   position: absolute;
   right: 0.5rem;
   bottom: 0.45rem;
+  padding: 0.25rem 0.35rem;
+  background: var(--paper);
   font-size: 0.58rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -652,12 +670,16 @@ figcaption span:last-child {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .contact-sheet div:nth-child(3) {
+  .contact-sheet li:nth-child(3) {
     border-right: 0;
   }
 
-  .contact-sheet div:nth-child(-n + 3) {
+  .contact-sheet li:nth-child(-n + 3) {
     border-bottom: var(--border);
+  }
+
+  .dolly-result > img {
+    height: auto;
   }
 
   .site-footer {
