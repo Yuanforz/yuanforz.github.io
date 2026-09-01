@@ -314,7 +314,10 @@ h2 span {
 .comparison-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1.5rem, 4vw, 5rem);
+  gap: clamp(1rem, 2.5vw, 2rem);
+  width: min(100%, 46rem);
+  margin-inline: auto;
+  align-items: start;
 }
 
 .photo-card {
@@ -322,7 +325,7 @@ h2 span {
 }
 
 .offset-card {
-  margin-top: clamp(3rem, 9vw, 9rem);
+  margin-top: 0;
 }
 
 .media-placeholder,
@@ -421,13 +424,21 @@ figcaption span:last-child {
 
 .architecture-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1.5rem, 4vw, 5rem);
-  align-items: end;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.5vw, 1.5rem);
+  width: min(100%, 72rem);
+  margin-inline: auto;
+  align-items: start;
 }
 
-.second-wide-card {
-  margin-bottom: clamp(3rem, 8vw, 8rem);
+.architecture-grid figcaption {
+  grid-template-columns: auto 1fr;
+  gap: 0.25rem 0.65rem;
+}
+
+.architecture-grid figcaption span:last-child {
+  grid-column: 2;
+  text-align: left;
 }
 
 .observation-blue {
@@ -657,8 +668,11 @@ figcaption span:last-child {
     grid-template-columns: 1fr;
   }
 
-  .offset-card,
-  .second-wide-card {
+  .comparison-grid {
+    width: min(100%, 21rem);
+  }
+
+  .offset-card {
     margin: 0;
   }
 
