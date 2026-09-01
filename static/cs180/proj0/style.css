@@ -314,8 +314,8 @@ h2 span {
 .comparison-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: clamp(1rem, 2.5vw, 2rem);
-  width: min(100%, 46rem);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  width: min(100%, 60rem);
   margin-inline: auto;
   align-items: start;
 }
