@@ -1,0 +1,2307 @@
+{
+  "parameters": {
+    "metric": "ncc",
+    "radius": 15,
+    "refinement": 3,
+    "border": 0.1,
+    "sample_limit": 512,
+    "only": null
+  },
+  "environment": {
+    "python": "3.9.6",
+    "platform": "macOS-26.6.2-arm64-arm-64bit",
+    "machine": "arm64",
+    "numpy": "1.26.4",
+    "scipy": "1.13.1",
+    "pillow": "11.3.0"
+  },
+  "images": [
+    {
+      "name": "cathedral",
+      "group": "provided",
+      "input": "cathedral.jpg",
+      "channel_shape": [
+        341,
+        390
+      ],
+      "runs": {
+        "single": {
+          "green_xy": [
+            2,
+            5
+          ],
+          "red_xy": [
+            3,
+            12
+          ],
+          "seconds": 0.158,
+          "crop_y0_y1_x0_x1": [
+            12,
+            341,
+            3,
+            390
+          ],
+          "green_trace": [
+            {
+              "level": 0,
+              "shape": [
+                341,
+                390
+              ],
+              "shift_dy_dx": [
+                5,
+                2
+              ],
+              "score": 0.9602141977672642
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 0,
+              "shape": [
+                341,
+                390
+              ],
+              "shift_dy_dx": [
+                12,
+                3
+              ],
+              "score": 0.905649572628809
+            }
+          ]
+        },
+        "pyramid": {
+          "green_xy": [
+            2,
+            5
+          ],
+          "red_xy": [
+            3,
+            12
+          ],
+          "seconds": 0.066,
+          "crop_y0_y1_x0_x1": [
+            12,
+            341,
+            3,
+            390
+          ],
+          "green_trace": [
+            {
+              "level": 1,
+              "shape": [
+                171,
+                195
+              ],
+              "shift_dy_dx": [
+                2,
+                1
+              ],
+              "score": 0.9754785874730687
+            },
+            {
+              "level": 0,
+              "shape": [
+                341,
+                390
+              ],
+              "shift_dy_dx": [
+                5,
+                2
+              ],
+              "score": 0.9602141977672642
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 1,
+              "shape": [
+                171,
+                195
+              ],
+              "shift_dy_dx": [
+                6,
+                2
+              ],
+              "score": 0.9219454184015742
+            },
+            {
+              "level": 0,
+              "shape": [
+                341,
+                390
+              ],
+              "shift_dy_dx": [
+                12,
+                3
+              ],
+              "score": 0.905649572628809
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "church",
+      "group": "provided",
+      "input": "church.tif",
+      "channel_shape": [
+        3202,
+        3634
+      ],
+      "runs": {
+        "pyramid": {
+          "green_xy": [
+            4,
+            25
+          ],
+          "red_xy": [
+            -4,
+            59
+          ],
+          "seconds": 0.405,
+          "crop_y0_y1_x0_x1": [
+            59,
+            3202,
+            4,
+            3630
+          ],
+          "green_trace": [
+            {
+              "level": 4,
+              "shape": [
+                201,
+                228
+              ],
+              "shift_dy_dx": [
+                1,
+                0
+              ],
+              "score": 0.9245139402300038
+            },
+            {
+              "level": 3,
+              "shape": [
+                401,
+                455
+              ],
+              "shift_dy_dx": [
+                3,
+                0
+              ],
+              "score": 0.9240571391683262
+            },
+            {
+              "level": 2,
+              "shape": [
+                801,
+                909
+              ],
+              "shift_dy_dx": [
+                6,
+                1
+              ],
+              "score": 0.9208968208121016
+            },
+            {
+              "level": 1,
+              "shape": [
+                1601,
+                1817
+              ],
+              "shift_dy_dx": [
+                12,
+                2
+              ],
+              "score": 0.9141337704605085
+            },
+            {
+              "level": 0,
+              "shape": [
+                3202,
+                3634
+              ],
+              "shift_dy_dx": [
+                25,
+                4
+              ],
+              "score": 0.907843574904278
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 4,
+              "shape": [
+                201,
+                228
+              ],
+              "shift_dy_dx": [
+                4,
+                0
+              ],
+              "score": 0.7548397108332827
+            },
+            {
+              "level": 3,
+              "shape": [
+                401,
+                455
+              ],
+              "shift_dy_dx": [
+                7,
+                -1
+              ],
+              "score": 0.7584479951927218
+            },
+            {
+              "level": 2,
+              "shape": [
+                801,
+                909
+              ],
+              "shift_dy_dx": [
+                15,
+                -1
+              ],
+              "score": 0.7557166102714348
+            },
+            {
+              "level": 1,
+              "shape": [
+                1601,
+                1817
+              ],
+              "shift_dy_dx": [
+                29,
+                -2
+              ],
+              "score": 0.7527083199009705
+            },
+            {
+              "level": 0,
+              "shape": [
+                3202,
+                3634
+              ],
+              "shift_dy_dx": [
+                59,
+                -4
+              ],
+              "score": 0.746720876548091
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "emir",
+      "group": "provided",
+      "input": "emir.tif",
+      "channel_shape": [
+        3209,
+        3702
+      ],
+      "runs": {
+        "pyramid": {
+          "green_xy": [
+            24,
+            49
+          ],
+          "red_xy": [
+            -204,
+            141
+          ],
+          "seconds": 0.378,
+          "crop_y0_y1_x0_x1": [
+            141,
+            3209,
+            24,
+            3498
+          ],
+          "green_trace": [
+            {
+              "level": 4,
+              "shape": [
+                201,
+                232
+              ],
+              "shift_dy_dx": [
+                3,
+                2
+              ],
+              "score": 0.7619341040173131
+            },
+            {
+              "level": 3,
+              "shape": [
+                402,
+                463
+              ],
+              "shift_dy_dx": [
+                6,
+                3
+              ],
+              "score": 0.7464917290752129
+            },
+            {
+              "level": 2,
+              "shape": [
+                803,
+                926
+              ],
+              "shift_dy_dx": [
+                12,
+                6
+              ],
+              "score": 0.7280551931577198
+            },
+            {
+              "level": 1,
+              "shape": [
+                1605,
+                1851
+              ],
+              "shift_dy_dx": [
+                25,
+                12
+              ],
+              "score": 0.7142978563855757
+            },
+            {
+              "level": 0,
+              "shape": [
+                3209,
+                3702
+              ],
+              "shift_dy_dx": [
+                49,
+                24
+              ],
+              "score": 0.7076268285590003
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 4,
+              "shape": [
+                201,
+                232
+              ],
+              "shift_dy_dx": [
+                9,
+                -13
+              ],
+              "score": 0.33795850562719376
+            },
+            {
+              "level": 3,
+              "shape": [
+                402,
+                463
+              ],
+              "shift_dy_dx": [
+                18,
+                -26
+              ],
+              "score": 0.314717425660155
+            },
+            {
+              "level": 2,
+              "shape": [
+                803,
+                926
+              ],
+              "shift_dy_dx": [
+                36,
+                -52
+              ],
+              "score": 0.29811796909762533
+            },
+            {
+              "level": 1,
+              "shape": [
+                1605,
+                1851
+              ],
+              "shift_dy_dx": [
+                70,
+                -102
+              ],
+              "score": 0.28851514052760807
+            },
+            {
+              "level": 0,
+              "shape": [
+                3209,
+                3702
+              ],
+              "shift_dy_dx": [
+                141,
+                -204
+              ],
+              "score": 0.284526341297853
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "harvesters",
+      "group": "provided",
+      "input": "harvesters.tif",
+      "channel_shape": [
+        3218,
+        3683
+      ],
+      "runs": {
+        "pyramid": {
+          "green_xy": [
+            17,
+            60
+          ],
+          "red_xy": [
+            13,
+            124
+          ],
+          "seconds": 0.372,
+          "crop_y0_y1_x0_x1": [
+            124,
+            3218,
+            17,
+            3683
+          ],
+          "green_trace": [
+            {
+              "level": 4,
+              "shape": [
+                202,
+                231
+              ],
+              "shift_dy_dx": [
+                4,
+                1
+              ],
+              "score": 0.8384390846318636
+            },
+            {
+              "level": 3,
+              "shape": [
+                403,
+                461
+              ],
+              "shift_dy_dx": [
+                7,
+                2
+              ],
+              "score": 0.8226712122959504
+            },
+            {
+              "level": 2,
+              "shape": [
+                805,
+                921
+              ],
+              "shift_dy_dx": [
+                15,
+                4
+              ],
+              "score": 0.8082928864506738
+            },
+            {
+              "level": 1,
+              "shape": [
+                1609,
+                1842
+              ],
+              "shift_dy_dx": [
+                30,
+                8
+              ],
+              "score": 0.7947656442015533
+            },
+            {
+              "level": 0,
+              "shape": [
+                3218,
+                3683
+              ],
+              "shift_dy_dx": [
+                60,
+                17
+              ],
+              "score": 0.7883958644475049
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 4,
+              "shape": [
+                202,
+                231
+              ],
+              "shift_dy_dx": [
+                8,
+                1
+              ],
+              "score": 0.8440351691048249
+            },
+            {
+              "level": 3,
+              "shape": [
+                403,
+                461
+              ],
+              "shift_dy_dx": [
+                16,
+                2
+              ],
+              "score": 0.828333767427018
+            },
+            {
+              "level": 2,
+              "shape": [
+                805,
+                921
+              ],
+              "shift_dy_dx": [
+                31,
+                3
+              ],
+              "score": 0.8145582341911716
+            },
+            {
+              "level": 1,
+              "shape": [
+                1609,
+                1842
+              ],
+              "shift_dy_dx": [
+                62,
+                7
+              ],
+              "score": 0.8040199267827585
+            },
+            {
+              "level": 0,
+              "shape": [
+                3218,
+                3683
+              ],
+              "shift_dy_dx": [
+                124,
+                13
+              ],
+              "score": 0.7981761354256466
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "icon",
+      "group": "provided",
+      "input": "icon.tif",
+      "channel_shape": [
+        3244,
+        3741
+      ],
+      "runs": {
+        "pyramid": {
+          "green_xy": [
+            17,
+            41
+          ],
+          "red_xy": [
+            23,
+            89
+          ],
+          "seconds": 0.457,
+          "crop_y0_y1_x0_x1": [
+            89,
+            3244,
+            23,
+            3741
+          ],
+          "green_trace": [
+            {
+              "level": 4,
+              "shape": [
+                203,
+                234
+              ],
+              "shift_dy_dx": [
+                3,
+                1
+              ],
+              "score": 0.86486527702048
+            },
+            {
+              "level": 3,
+              "shape": [
+                406,
+                468
+              ],
+              "shift_dy_dx": [
+                5,
+                2
+              ],
+              "score": 0.8657189756808709
+            },
+            {
+              "level": 2,
+              "shape": [
+                811,
+                936
+              ],
+              "shift_dy_dx": [
+                10,
+                4
+              ],
+              "score": 0.8431648663537448
+            },
+            {
+              "level": 1,
+              "shape": [
+                1622,
+                1871
+              ],
+              "shift_dy_dx": [
+                20,
+                8
+              ],
+              "score": 0.8164162735089031
+            },
+            {
+              "level": 0,
+              "shape": [
+                3244,
+                3741
+              ],
+              "shift_dy_dx": [
+                41,
+                17
+              ],
+              "score": 0.8013972941708226
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 4,
+              "shape": [
+                203,
+                234
+              ],
+              "shift_dy_dx": [
+                6,
+                1
+              ],
+              "score": 0.6538462808730108
+            },
+            {
+              "level": 3,
+              "shape": [
+                406,
+                468
+              ],
+              "shift_dy_dx": [
+                11,
+                3
+              ],
+              "score": 0.6728205181187826
+            },
+            {
+              "level": 2,
+              "shape": [
+                811,
+                936
+              ],
+              "shift_dy_dx": [
+                22,
+                6
+              ],
+              "score": 0.6630662036723749
+            },
+            {
+              "level": 1,
+              "shape": [
+                1622,
+                1871
+              ],
+              "shift_dy_dx": [
+                45,
+                11
+              ],
+              "score": 0.6571024349567633
+            },
+            {
+              "level": 0,
+              "shape": [
+                3244,
+                3741
+              ],
+              "shift_dy_dx": [
+                89,
+                23
+              ],
+              "score": 0.6486457142249336
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "ilemselga",
+      "group": "provided",
+      "input": "ilemselga.tif",
+      "channel_shape": [
+        3270,
+        3800
+      ],
+      "runs": {
+        "pyramid": {
+          "green_xy": [
+            7,
+            40
+          ],
+          "red_xy": [
+            11,
+            130
+          ],
+          "seconds": 0.554,
+          "crop_y0_y1_x0_x1": [
+            130,
+            3270,
+            11,
+            3800
+          ],
+          "green_trace": [
+            {
+              "level": 4,
+              "shape": [
+                205,
+                238
+              ],
+              "shift_dy_dx": [
+                2,
+                1
+              ],
+              "score": 0.7210838968743902
+            },
+            {
+              "level": 3,
+              "shape": [
+                409,
+                475
+              ],
+              "shift_dy_dx": [
+                5,
+                1
+              ],
+              "score": 0.7388403955958671
+            },
+            {
+              "level": 2,
+              "shape": [
+                818,
+                950
+              ],
+              "shift_dy_dx": [
+                10,
+                2
+              ],
+              "score": 0.7436975524471402
+            },
+            {
+              "level": 1,
+              "shape": [
+                1635,
+                1900
+              ],
+              "shift_dy_dx": [
+                20,
+                4
+              ],
+              "score": 0.7434009988191973
+            },
+            {
+              "level": 0,
+              "shape": [
+                3270,
+                3800
+              ],
+              "shift_dy_dx": [
+                40,
+                7
+              ],
+              "score": 0.7423808610179954
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 4,
+              "shape": [
+                205,
+                238
+              ],
+              "shift_dy_dx": [
+                8,
+                1
+              ],
+              "score": 0.5619965532037569
+            },
+            {
+              "level": 3,
+              "shape": [
+                409,
+                475
+              ],
+              "shift_dy_dx": [
+                16,
+                1
+              ],
+              "score": 0.5739519145257573
+            },
+            {
+              "level": 2,
+              "shape": [
+                818,
+                950
+              ],
+              "shift_dy_dx": [
+                32,
+                3
+              ],
+              "score": 0.5813306681160729
+            },
+            {
+              "level": 1,
+              "shape": [
+                1635,
+                1900
+              ],
+              "shift_dy_dx": [
+                65,
+                5
+              ],
+              "score": 0.5846653046681873
+            },
+            {
+              "level": 0,
+              "shape": [
+                3270,
+                3800
+              ],
+              "shift_dy_dx": [
+                130,
+                11
+              ],
+              "score": 0.5840984293356204
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "melons",
+      "group": "provided",
+      "input": "melons.tif",
+      "channel_shape": [
+        3241,
+        3770
+      ],
+      "runs": {
+        "pyramid": {
+          "green_xy": [
+            10,
+            81
+          ],
+          "red_xy": [
+            13,
+            178
+          ],
+          "seconds": 0.402,
+          "crop_y0_y1_x0_x1": [
+            178,
+            3241,
+            13,
+            3770
+          ],
+          "green_trace": [
+            {
+              "level": 4,
+              "shape": [
+                203,
+                236
+              ],
+              "shift_dy_dx": [
+                5,
+                1
+              ],
+              "score": 0.9620912246981015
+            },
+            {
+              "level": 3,
+              "shape": [
+                406,
+                472
+              ],
+              "shift_dy_dx": [
+                10,
+                1
+              ],
+              "score": 0.9586920361159319
+            },
+            {
+              "level": 2,
+              "shape": [
+                811,
+                943
+              ],
+              "shift_dy_dx": [
+                21,
+                3
+              ],
+              "score": 0.951836595963774
+            },
+            {
+              "level": 1,
+              "shape": [
+                1621,
+                1885
+              ],
+              "shift_dy_dx": [
+                41,
+                5
+              ],
+              "score": 0.9447522126705472
+            },
+            {
+              "level": 0,
+              "shape": [
+                3241,
+                3770
+              ],
+              "shift_dy_dx": [
+                81,
+                10
+              ],
+              "score": 0.9393944384469698
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 4,
+              "shape": [
+                203,
+                236
+              ],
+              "shift_dy_dx": [
+                11,
+                1
+              ],
+              "score": 0.9360751953910924
+            },
+            {
+              "level": 3,
+              "shape": [
+                406,
+                472
+              ],
+              "shift_dy_dx": [
+                22,
+                2
+              ],
+              "score": 0.929011700637185
+            },
+            {
+              "level": 2,
+              "shape": [
+                811,
+                943
+              ],
+              "shift_dy_dx": [
+                45,
+                3
+              ],
+              "score": 0.9239252759671187
+            },
+            {
+              "level": 1,
+              "shape": [
+                1621,
+                1885
+              ],
+              "shift_dy_dx": [
+                89,
+                7
+              ],
+              "score": 0.9177782147001997
+            },
+            {
+              "level": 0,
+              "shape": [
+                3241,
+                3770
+              ],
+              "shift_dy_dx": [
+                178,
+                13
+              ],
+              "score": 0.9133680005089824
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "monastery",
+      "group": "provided",
+      "input": "monastery.jpg",
+      "channel_shape": [
+        341,
+        391
+      ],
+      "runs": {
+        "single": {
+          "green_xy": [
+            2,
+            -3
+          ],
+          "red_xy": [
+            2,
+            3
+          ],
+          "seconds": 0.157,
+          "crop_y0_y1_x0_x1": [
+            3,
+            338,
+            2,
+            391
+          ],
+          "green_trace": [
+            {
+              "level": 0,
+              "shape": [
+                341,
+                391
+              ],
+              "shift_dy_dx": [
+                -3,
+                2
+              ],
+              "score": 0.9396144373880799
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 0,
+              "shape": [
+                341,
+                391
+              ],
+              "shift_dy_dx": [
+                3,
+                2
+              ],
+              "score": 0.7940614010903712
+            }
+          ]
+        },
+        "pyramid": {
+          "green_xy": [
+            2,
+            -3
+          ],
+          "red_xy": [
+            2,
+            3
+          ],
+          "seconds": 0.075,
+          "crop_y0_y1_x0_x1": [
+            3,
+            338,
+            2,
+            391
+          ],
+          "green_trace": [
+            {
+              "level": 1,
+              "shape": [
+                171,
+                196
+              ],
+              "shift_dy_dx": [
+                -2,
+                1
+              ],
+              "score": 0.9521057990967939
+            },
+            {
+              "level": 0,
+              "shape": [
+                341,
+                391
+              ],
+              "shift_dy_dx": [
+                -3,
+                2
+              ],
+              "score": 0.9396144373880799
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 1,
+              "shape": [
+                171,
+                196
+              ],
+              "shift_dy_dx": [
+                1,
+                1
+              ],
+              "score": 0.8006682105417574
+            },
+            {
+              "level": 0,
+              "shape": [
+                341,
+                391
+              ],
+              "shift_dy_dx": [
+                3,
+                2
+              ],
+              "score": 0.7940614010903712
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "religous_painting",
+      "group": "provided",
+      "input": "religous_painting.tif",
+      "channel_shape": [
+        3193,
+        3742
+      ],
+      "runs": {
+        "pyramid": {
+          "green_xy": [
+            3,
+            28
+          ],
+          "red_xy": [
+            7,
+            68
+          ],
+          "seconds": 0.383,
+          "crop_y0_y1_x0_x1": [
+            68,
+            3193,
+            7,
+            3742
+          ],
+          "green_trace": [
+            {
+              "level": 4,
+              "shape": [
+                200,
+                234
+              ],
+              "shift_dy_dx": [
+                2,
+                0
+              ],
+              "score": 0.8611207562855411
+            },
+            {
+              "level": 3,
+              "shape": [
+                400,
+                468
+              ],
+              "shift_dy_dx": [
+                3,
+                0
+              ],
+              "score": 0.8666308982963996
+            },
+            {
+              "level": 2,
+              "shape": [
+                799,
+                936
+              ],
+              "shift_dy_dx": [
+                7,
+                1
+              ],
+              "score": 0.854916934028949
+            },
+            {
+              "level": 1,
+              "shape": [
+                1597,
+                1871
+              ],
+              "shift_dy_dx": [
+                13,
+                2
+              ],
+              "score": 0.8418311771400089
+            },
+            {
+              "level": 0,
+              "shape": [
+                3193,
+                3742
+              ],
+              "shift_dy_dx": [
+                28,
+                3
+              ],
+              "score": 0.8310706346358816
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 4,
+              "shape": [
+                200,
+                234
+              ],
+              "shift_dy_dx": [
+                4,
+                0
+              ],
+              "score": 0.8010127701519065
+            },
+            {
+              "level": 3,
+              "shape": [
+                400,
+                468
+              ],
+              "shift_dy_dx": [
+                8,
+                1
+              ],
+              "score": 0.8014361734240443
+            },
+            {
+              "level": 2,
+              "shape": [
+                799,
+                936
+              ],
+              "shift_dy_dx": [
+                17,
+                2
+              ],
+              "score": 0.7942699153734307
+            },
+            {
+              "level": 1,
+              "shape": [
+                1597,
+                1871
+              ],
+              "shift_dy_dx": [
+                34,
+                3
+              ],
+              "score": 0.7851136502372159
+            },
+            {
+              "level": 0,
+              "shape": [
+                3193,
+                3742
+              ],
+              "shift_dy_dx": [
+                68,
+                7
+              ],
+              "score": 0.7770285390297237
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "self_portrait",
+      "group": "provided",
+      "input": "self_portrait.tif",
+      "channel_shape": [
+        3251,
+        3810
+      ],
+      "runs": {
+        "pyramid": {
+          "green_xy": [
+            29,
+            79
+          ],
+          "red_xy": [
+            37,
+            176
+          ],
+          "seconds": 0.39,
+          "crop_y0_y1_x0_x1": [
+            176,
+            3251,
+            37,
+            3810
+          ],
+          "green_trace": [
+            {
+              "level": 4,
+              "shape": [
+                204,
+                239
+              ],
+              "shift_dy_dx": [
+                5,
+                2
+              ],
+              "score": 0.8576041866716497
+            },
+            {
+              "level": 3,
+              "shape": [
+                407,
+                477
+              ],
+              "shift_dy_dx": [
+                10,
+                4
+              ],
+              "score": 0.8446477521232769
+            },
+            {
+              "level": 2,
+              "shape": [
+                813,
+                953
+              ],
+              "shift_dy_dx": [
+                20,
+                7
+              ],
+              "score": 0.8248773535874115
+            },
+            {
+              "level": 1,
+              "shape": [
+                1626,
+                1905
+              ],
+              "shift_dy_dx": [
+                39,
+                14
+              ],
+              "score": 0.8015431391457325
+            },
+            {
+              "level": 0,
+              "shape": [
+                3251,
+                3810
+              ],
+              "shift_dy_dx": [
+                79,
+                29
+              ],
+              "score": 0.7880637251944723
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 4,
+              "shape": [
+                204,
+                239
+              ],
+              "shift_dy_dx": [
+                11,
+                2
+              ],
+              "score": 0.8130644650576034
+            },
+            {
+              "level": 3,
+              "shape": [
+                407,
+                477
+              ],
+              "shift_dy_dx": [
+                22,
+                5
+              ],
+              "score": 0.8006798217166118
+            },
+            {
+              "level": 2,
+              "shape": [
+                813,
+                953
+              ],
+              "shift_dy_dx": [
+                44,
+                9
+              ],
+              "score": 0.7842610937166309
+            },
+            {
+              "level": 1,
+              "shape": [
+                1626,
+                1905
+              ],
+              "shift_dy_dx": [
+                88,
+                18
+              ],
+              "score": 0.7612636766275306
+            },
+            {
+              "level": 0,
+              "shape": [
+                3251,
+                3810
+              ],
+              "shift_dy_dx": [
+                176,
+                37
+              ],
+              "score": 0.7475864271271998
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "siren",
+      "group": "provided",
+      "input": "siren.tif",
+      "channel_shape": [
+        3250,
+        3817
+      ],
+      "runs": {
+        "pyramid": {
+          "green_xy": [
+            -6,
+            49
+          ],
+          "red_xy": [
+            -25,
+            96
+          ],
+          "seconds": 0.438,
+          "crop_y0_y1_x0_x1": [
+            96,
+            3250,
+            0,
+            3792
+          ],
+          "green_trace": [
+            {
+              "level": 4,
+              "shape": [
+                204,
+                239
+              ],
+              "shift_dy_dx": [
+                3,
+                0
+              ],
+              "score": 0.8659584708498548
+            },
+            {
+              "level": 3,
+              "shape": [
+                407,
+                478
+              ],
+              "shift_dy_dx": [
+                6,
+                -1
+              ],
+              "score": 0.8653603504097889
+            },
+            {
+              "level": 2,
+              "shape": [
+                813,
+                955
+              ],
+              "shift_dy_dx": [
+                12,
+                -2
+              ],
+              "score": 0.8570833499117558
+            },
+            {
+              "level": 1,
+              "shape": [
+                1625,
+                1909
+              ],
+              "shift_dy_dx": [
+                25,
+                -3
+              ],
+              "score": 0.851685889259051
+            },
+            {
+              "level": 0,
+              "shape": [
+                3250,
+                3817
+              ],
+              "shift_dy_dx": [
+                49,
+                -6
+              ],
+              "score": 0.8449845470131886
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 4,
+              "shape": [
+                204,
+                239
+              ],
+              "shift_dy_dx": [
+                6,
+                -2
+              ],
+              "score": 0.89892852030917
+            },
+            {
+              "level": 3,
+              "shape": [
+                407,
+                478
+              ],
+              "shift_dy_dx": [
+                12,
+                -3
+              ],
+              "score": 0.9036300641422973
+            },
+            {
+              "level": 2,
+              "shape": [
+                813,
+                955
+              ],
+              "shift_dy_dx": [
+                24,
+                -6
+              ],
+              "score": 0.898746086919056
+            },
+            {
+              "level": 1,
+              "shape": [
+                1625,
+                1909
+              ],
+              "shift_dy_dx": [
+                48,
+                -12
+              ],
+              "score": 0.8923565960490906
+            },
+            {
+              "level": 0,
+              "shape": [
+                3250,
+                3817
+              ],
+              "shift_dy_dx": [
+                96,
+                -25
+              ],
+              "score": 0.8868484914986393
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "three_generations",
+      "group": "provided",
+      "input": "three_generations.tif",
+      "channel_shape": [
+        3209,
+        3714
+      ],
+      "runs": {
+        "pyramid": {
+          "green_xy": [
+            14,
+            53
+          ],
+          "red_xy": [
+            11,
+            112
+          ],
+          "seconds": 0.372,
+          "crop_y0_y1_x0_x1": [
+            112,
+            3209,
+            14,
+            3714
+          ],
+          "green_trace": [
+            {
+              "level": 4,
+              "shape": [
+                201,
+                233
+              ],
+              "shift_dy_dx": [
+                3,
+                1
+              ],
+              "score": 0.9646922073355806
+            },
+            {
+              "level": 3,
+              "shape": [
+                402,
+                465
+              ],
+              "shift_dy_dx": [
+                7,
+                2
+              ],
+              "score": 0.9538411475734404
+            },
+            {
+              "level": 2,
+              "shape": [
+                803,
+                929
+              ],
+              "shift_dy_dx": [
+                13,
+                3
+              ],
+              "score": 0.9448326258433509
+            },
+            {
+              "level": 1,
+              "shape": [
+                1605,
+                1857
+              ],
+              "shift_dy_dx": [
+                27,
+                7
+              ],
+              "score": 0.9357930483036092
+            },
+            {
+              "level": 0,
+              "shape": [
+                3209,
+                3714
+              ],
+              "shift_dy_dx": [
+                53,
+                14
+              ],
+              "score": 0.9305106561583513
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 4,
+              "shape": [
+                201,
+                233
+              ],
+              "shift_dy_dx": [
+                7,
+                1
+              ],
+              "score": 0.92337322505386
+            },
+            {
+              "level": 3,
+              "shape": [
+                402,
+                465
+              ],
+              "shift_dy_dx": [
+                14,
+                1
+              ],
+              "score": 0.9147020930111586
+            },
+            {
+              "level": 2,
+              "shape": [
+                803,
+                929
+              ],
+              "shift_dy_dx": [
+                28,
+                3
+              ],
+              "score": 0.9091303390276481
+            },
+            {
+              "level": 1,
+              "shape": [
+                1605,
+                1857
+              ],
+              "shift_dy_dx": [
+                56,
+                6
+              ],
+              "score": 0.9012134860466144
+            },
+            {
+              "level": 0,
+              "shape": [
+                3209,
+                3714
+              ],
+              "shift_dy_dx": [
+                112,
+                11
+              ],
+              "score": 0.8966608557469873
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "tobolsk",
+      "group": "provided",
+      "input": "tobolsk.jpg",
+      "channel_shape": [
+        341,
+        396
+      ],
+      "runs": {
+        "single": {
+          "green_xy": [
+            3,
+            3
+          ],
+          "red_xy": [
+            3,
+            6
+          ],
+          "seconds": 0.155,
+          "crop_y0_y1_x0_x1": [
+            6,
+            341,
+            3,
+            396
+          ],
+          "green_trace": [
+            {
+              "level": 0,
+              "shape": [
+                341,
+                396
+              ],
+              "shift_dy_dx": [
+                3,
+                3
+              ],
+              "score": 0.9207021427307163
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 0,
+              "shape": [
+                341,
+                396
+              ],
+              "shift_dy_dx": [
+                6,
+                3
+              ],
+              "score": 0.8574289771138707
+            }
+          ]
+        },
+        "pyramid": {
+          "green_xy": [
+            3,
+            3
+          ],
+          "red_xy": [
+            3,
+            6
+          ],
+          "seconds": 0.066,
+          "crop_y0_y1_x0_x1": [
+            6,
+            341,
+            3,
+            396
+          ],
+          "green_trace": [
+            {
+              "level": 1,
+              "shape": [
+                171,
+                198
+              ],
+              "shift_dy_dx": [
+                1,
+                1
+              ],
+              "score": 0.9670210159654378
+            },
+            {
+              "level": 0,
+              "shape": [
+                341,
+                396
+              ],
+              "shift_dy_dx": [
+                3,
+                3
+              ],
+              "score": 0.9207021427307163
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 1,
+              "shape": [
+                171,
+                198
+              ],
+              "shift_dy_dx": [
+                3,
+                2
+              ],
+              "score": 0.9047470489151002
+            },
+            {
+              "level": 0,
+              "shape": [
+                341,
+                396
+              ],
+              "shift_dy_dx": [
+                6,
+                3
+              ],
+              "score": 0.8574289771138707
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "wharf",
+      "group": "provided",
+      "input": "wharf.tif",
+      "channel_shape": [
+        3244,
+        3761
+      ],
+      "runs": {
+        "pyramid": {
+          "green_xy": [
+            -7,
+            15
+          ],
+          "red_xy": [
+            -16,
+            83
+          ],
+          "seconds": 0.429,
+          "crop_y0_y1_x0_x1": [
+            83,
+            3244,
+            0,
+            3745
+          ],
+          "green_trace": [
+            {
+              "level": 4,
+              "shape": [
+                203,
+                236
+              ],
+              "shift_dy_dx": [
+                1,
+                0
+              ],
+              "score": 0.9094674171087678
+            },
+            {
+              "level": 3,
+              "shape": [
+                406,
+                471
+              ],
+              "shift_dy_dx": [
+                2,
+                -1
+              ],
+              "score": 0.9141585581216009
+            },
+            {
+              "level": 2,
+              "shape": [
+                811,
+                941
+              ],
+              "shift_dy_dx": [
+                4,
+                -2
+              ],
+              "score": 0.909272551268589
+            },
+            {
+              "level": 1,
+              "shape": [
+                1622,
+                1881
+              ],
+              "shift_dy_dx": [
+                8,
+                -3
+              ],
+              "score": 0.9025206313069557
+            },
+            {
+              "level": 0,
+              "shape": [
+                3244,
+                3761
+              ],
+              "shift_dy_dx": [
+                15,
+                -7
+              ],
+              "score": 0.8993385040804576
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 4,
+              "shape": [
+                203,
+                236
+              ],
+              "shift_dy_dx": [
+                5,
+                -1
+              ],
+              "score": 0.7805410812836516
+            },
+            {
+              "level": 3,
+              "shape": [
+                406,
+                471
+              ],
+              "shift_dy_dx": [
+                10,
+                -2
+              ],
+              "score": 0.783581096709671
+            },
+            {
+              "level": 2,
+              "shape": [
+                811,
+                941
+              ],
+              "shift_dy_dx": [
+                21,
+                -4
+              ],
+              "score": 0.7858531618994835
+            },
+            {
+              "level": 1,
+              "shape": [
+                1622,
+                1881
+              ],
+              "shift_dy_dx": [
+                41,
+                -8
+              ],
+              "score": 0.7792781902175727
+            },
+            {
+              "level": 0,
+              "shape": [
+                3244,
+                3761
+              ],
+              "shift_dy_dx": [
+                83,
+                -16
+              ],
+              "score": 0.7712862517225857
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "calligonum",
+      "group": "extra",
+      "input": "calligonum.jpg",
+      "channel_shape": [
+        341,
+        397
+      ],
+      "runs": {
+        "pyramid": {
+          "green_xy": [
+            0,
+            4
+          ],
+          "red_xy": [
+            -1,
+            10
+          ],
+          "seconds": 0.069,
+          "crop_y0_y1_x0_x1": [
+            10,
+            341,
+            0,
+            396
+          ],
+          "green_trace": [
+            {
+              "level": 1,
+              "shape": [
+                171,
+                199
+              ],
+              "shift_dy_dx": [
+                2,
+                0
+              ],
+              "score": 0.820526833556566
+            },
+            {
+              "level": 0,
+              "shape": [
+                341,
+                397
+              ],
+              "shift_dy_dx": [
+                4,
+                0
+              ],
+              "score": 0.6594766310770703
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 1,
+              "shape": [
+                171,
+                199
+              ],
+              "shift_dy_dx": [
+                5,
+                0
+              ],
+              "score": 0.7102298519296224
+            },
+            {
+              "level": 0,
+              "shape": [
+                341,
+                397
+              ],
+              "shift_dy_dx": [
+                10,
+                -1
+              ],
+              "score": 0.5737184836203431
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "desert_tracks",
+      "group": "extra",
+      "input": "desert_tracks.jpg",
+      "channel_shape": [
+        341,
+        396
+      ],
+      "runs": {
+        "pyramid": {
+          "green_xy": [
+            2,
+            5
+          ],
+          "red_xy": [
+            2,
+            12
+          ],
+          "seconds": 0.067,
+          "crop_y0_y1_x0_x1": [
+            12,
+            341,
+            2,
+            396
+          ],
+          "green_trace": [
+            {
+              "level": 1,
+              "shape": [
+                171,
+                198
+              ],
+              "shift_dy_dx": [
+                2,
+                1
+              ],
+              "score": 0.9574258648147096
+            },
+            {
+              "level": 0,
+              "shape": [
+                341,
+                396
+              ],
+              "shift_dy_dx": [
+                5,
+                2
+              ],
+              "score": 0.9291437964051974
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 1,
+              "shape": [
+                171,
+                198
+              ],
+              "shift_dy_dx": [
+                6,
+                1
+              ],
+              "score": 0.8581612654987932
+            },
+            {
+              "level": 0,
+              "shape": [
+                341,
+                396
+              ],
+              "shift_dy_dx": [
+                12,
+                2
+              ],
+              "score": 0.8004578956144414
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "evening",
+      "group": "extra",
+      "input": "evening.jpg",
+      "channel_shape": [
+        341,
+        394
+      ],
+      "runs": {
+        "pyramid": {
+          "green_xy": [
+            4,
+            4
+          ],
+          "red_xy": [
+            7,
+            10
+          ],
+          "seconds": 0.067,
+          "crop_y0_y1_x0_x1": [
+            10,
+            341,
+            7,
+            394
+          ],
+          "green_trace": [
+            {
+              "level": 1,
+              "shape": [
+                171,
+                197
+              ],
+              "shift_dy_dx": [
+                2,
+                2
+              ],
+              "score": 0.9883541394116458
+            },
+            {
+              "level": 0,
+              "shape": [
+                341,
+                394
+              ],
+              "shift_dy_dx": [
+                4,
+                4
+              ],
+              "score": 0.9614975100176054
+            }
+          ],
+          "red_trace": [
+            {
+              "level": 1,
+              "shape": [
+                171,
+                197
+              ],
+              "shift_dy_dx": [
+                5,
+                3
+              ],
+              "score": 0.9516257805795294
+            },
+            {
+              "level": 0,
+              "shape": [
+                341,
+                394
+              ],
+              "shift_dy_dx": [
+                10,
+                7
+              ],
+              "score": 0.9222400799713127
+            }
+          ]
+        }
+      }
+    }
+  ]
+}
