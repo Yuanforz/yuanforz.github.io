@@ -17,3 +17,4 @@ Start from the posts page or read the about page first.
 
 - [Project 0 — Becoming Friends with Your Camera](/cs180/proj0/)
 - [Project 1 — Images of the Russian Empire](/cs180/proj1/)
+- [Project 2 — Filters and Frequencies](/cs180/proj2/)

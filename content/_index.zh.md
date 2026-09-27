@@ -17,3 +17,4 @@ description = "YuanForz 的个人主页"
 
 - [Project 0 — 与相机交朋友](/cs180/proj0/)
 - [Project 1 — 俄罗斯帝国的彩色影像](/cs180/proj1/)
+- [Project 2 — 滤波与频率](/cs180/proj2/)
