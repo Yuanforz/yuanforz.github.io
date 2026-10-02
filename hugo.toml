@@ -21,6 +21,7 @@ timeZone = "Asia/Shanghai"
 
 [params]
   env = "production"
+  disableSpecial1stPost = true
   ShowReadingTime = true
   ShowCodeCopyButtons = true
   ShowToc = true
