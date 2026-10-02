@@ -1,13 +1,12 @@
 # yuanforz.github.io
 
-基于 Hugo + PaperMod 的中英双语个人主页与博客，支持轻量 LaTeX 公式渲染（KaTeX）以及本地网页写作助手。
+基于 Hugo + PaperMod 的中英双语个人主页与博客，支持轻量 LaTeX 公式渲染（KaTeX）。
 
 ## 已实现能力
 
 - 中英双语站点结构
 - 首页 / 博客 / 关于页
 - 按文章启用的 KaTeX 公式渲染
-- 本地写作助手页面（生成 Front Matter、保存或下载 Markdown、打开本地预览）
 - GitHub Actions 自动构建并发布到 GitHub Pages
 
 ## 快速开始
@@ -66,14 +65,13 @@ hugo --gc --minify
 │     ├─ math-notes.zh.md
 │     └─ math-notes.en.md
 ├─ layouts/partials/extend_head.html
-├─ static/tools/writer/index.html
 ├─ themes/PaperMod (git submodule)
 └─ hugo.toml
 ```
 
 ## 写文章流程
 
-### 方案 A：直接写 Markdown
+直接写 Markdown。
 
 中英文文章命名示例：
 
@@ -81,20 +79,6 @@ hugo --gc --minify
 - content/posts/my-post.en.md
 
 建议使用相同的 slug 与 translationKey 关联翻译文章。
-
-### 方案 B：使用本地写作助手
-
-启动站点后访问：
-
-- http://localhost:1313/tools/writer/
-
-功能：
-
-- 维护标题、slug、语言、摘要、标签、draft、math
-- 一键插入常用公式片段
-- 选择 content/posts 目录后直接保存
-- 浏览器不支持目录写入时自动回退为下载 .md
-- 根据语言与 slug 打开本地预览链接
 
 ## 公式渲染（KaTeX）
 
