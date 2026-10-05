@@ -103,6 +103,33 @@
     text-decoration: none;
 }
 
+/* Homepage: About section with a pointer to the full page, then posts */
+
+.home h2 a.title-link {
+    text-decoration: none;
+}
+
+.home h2 a.title-link::after {
+    content: " ›";
+    color: var(--accent);
+}
+
+.home a.post-row {
+    display: block;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: inherit;
+}
+
+.home a.post-row:first-of-type {
+    padding-top: 2px;
+}
+
+.home a.post-row:hover h3 {
+    color: var(--accent);
+}
+
 /* Sections */
 
 .home section {

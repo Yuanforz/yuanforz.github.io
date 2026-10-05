@@ -1,0 +1,58 @@
+{{- define "main" }}
+{{- $d := index hugo.Data.home site.Language.Lang }}
+{{- $l := $d.labels }}
+<div class="home">
+
+  <header class="intro">
+    <h1>{{ $d.name }}{{ with $d.name_alt }}<span>{{ . }}</span>{{ end }}</h1>
+    <p class="lead">{{ $d.lead | markdownify }}</p>
+    <p><span class="meta">{{ $d.interests_label }}</span><span>{{ $d.interests }}</span></p>
+    <p><span class="meta">{{ $d.contact_label }}</span><span>
+      {{- range $i, $e := $d.links }}{{ if $i }}<span class="sep">·</span>{{ end -}}
+      <a href="{{ .url }}"{{ if hasPrefix .url "http" }} target="_blank" rel="noopener"{{ end }}>{{ .label }}</a>
+      {{- end }}</span>
+    </p>
+    <nav class="jump" aria-label="Sections">
+      <a href="#education">{{ $l.education }}</a>
+      <a href="#publications">{{ $l.publications }}</a>
+      <a href="#research">{{ $l.research }}</a>
+      <a href="#honors">{{ $l.honors }}</a>
+    </nav>
+  </header>
+
+  <section id="education">
+    <h2>{{ $l.education }}</h2>
+    {{- range $d.education }}{{ partial "home/item.html" . }}{{ end }}
+  </section>
+
+  <section id="publications">
+    <h2>{{ $l.publications }}</h2>
+    {{- range $d.publications }}{{ $u := .url }}
+    <article class="item pub">
+      <div>
+        <h3><a href="{{ .url }}" target="_blank" rel="noopener">{{ .title }}</a></h3>
+        <p class="meta">{{ .authors | markdownify }}</p>
+        <p class="venue{{ if .accepted }} accepted{{ end }}">{{ .venue }} · {{ .status }}</p>
+      </div>
+      {{- with .image }}<a class="thumb" href="{{ $u }}" target="_blank" rel="noopener"><img src="{{ . | relURL }}" alt="" loading="lazy"></a>{{ end }}
+    </article>
+    {{- end }}
+    {{- with $d.pub_note }}<p class="footnote"><sup>*</sup> {{ . }}</p>{{ end }}
+  </section>
+
+  <section id="research">
+    <h2>{{ $l.research }}</h2>
+    {{- range $d.research }}{{ partial "home/item.html" . }}{{ end }}
+  </section>
+
+  <section id="honors">
+    <h2>{{ $l.honors }}</h2>
+    <ul class="lines">
+      {{- range $d.honors }}
+      <li><span>{{ .title }}{{ with .detail }}<span class="meta"> · {{ . }}</span>{{ end }}</span><time>{{ .year }}</time></li>
+      {{- end }}
+    </ul>
+  </section>
+
+</div>
+{{- end }}
