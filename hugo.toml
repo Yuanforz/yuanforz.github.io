@@ -58,7 +58,7 @@ timeZone = "Asia/Shanghai"
 [[languages.zh.menu.main]]
   identifier = "resume"
   name = "Resume"
-  url = "/resume/"
+  url = "/cv/dianyuan_zou_cv.pdf"
   weight = 40
 
 [languages.en]
@@ -90,7 +90,7 @@ timeZone = "Asia/Shanghai"
 [[languages.en.menu.main]]
   identifier = "resume"
   name = "Resume"
-  url = "/resume/"
+  url = "/cv/dianyuan_zou_cv.pdf"
   weight = 40
 
 [markup]

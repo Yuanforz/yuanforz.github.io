@@ -1,0 +1,76 @@
+name: "Dianyuan Zou"
+lead: >-
+  I am an undergraduate at **Huazhong University of Science and Technology**,
+  currently a visiting student at **UC Berkeley Extension**.
+interests_label: "Research interests"
+interests: "Representation Learning; Learning and Reasoning in Neural Networks; Active Perception and Embodied Intelligence; Computer Vision"
+contact_label: "Contact"
+links:
+  - { label: "Email", url: "mailto:dyforzhou@berkeley.edu" }
+  - { label: "GitHub", url: "https://github.com/yuanforz" }
+  - { label: "LinkedIn", url: "https://www.linkedin.com/in/dianyuan-zou-234b55415/" }
+
+
+labels:
+  publications: "Publications"
+  research: "Experience"
+  education: "Education"
+  honors: "Honors & Awards"
+  posts: "Writing"
+  all_posts: "All posts"
+
+pub_note: "Equal contribution"
+
+publications:
+  - title: "Rethinking the Readout: Unlocking Video Backbones for AI-Generated Video Detection"
+    url: "https://openreview.net/forum?id=rXN1Faijz6"
+    image: "img/home/pub-readout.jpg"
+    authors: 'Manni Cui<sup>&#42;</sup>, Ziheng Qin<sup>&#42;</sup>, ZiAn Wang, Ruiqi Liu, **Dianyuan Zou**, et al.'
+    venue: "NeurIPS 2026"
+    status: "Accepted · Poster"
+    accepted: true
+  - title: "GlobalForge: Towards Robust AI-Generated Image Detection"
+    url: "https://openreview.net/forum?id=ARbeXboTVC"
+    image: "img/home/pub-globalforge.jpg"
+    authors: 'Manni Cui<sup>&#42;</sup>, Ruiqi Liu<sup>&#42;</sup>, **Dianyuan Zou**<sup>&#42;</sup>, et al.'
+    venue: "ICLR 2027"
+    status: "Under review"
+    accepted: false
+
+research:
+  - title: "Westlake University · ENCODE Lab"
+    logo: "img/home/westlake.png"
+    date: "Jun 2026 – Present"
+    meta: "Visiting Research Intern · Advisor: Prof. Huan Wang"
+    summary: >-
+      Ongoing project: investigating whether a vision model learns better
+      representations when it is given the **freedom to actively decide where
+      to look next**, rather than being fed a fixed set of crops. Implemented
+      the training framework (DINO-style self-distillation on a block-causal
+      ViT with an acquisition head) and am evaluating it on ImageNet.
+  - title: "RoboMaster Global Robotics Competition"
+    logo: "img/home/langya.png"
+    logo_mono: true
+    date: "2023 – 2025"
+    meta: "Vision Algorithm Member · Langya Algorithm Group, HUST"
+    summary: >-
+      Built the real-time **auto-aiming vision pipeline** in C++. Trained,
+      quantized and deployed YOLO11-s on an Intel NUC with OpenVINO.
+
+education:
+  - title: "University of California, Berkeley, Extension"
+    logo: "img/home/ucb.svg"
+    date: "Aug 2026 – Present"
+    meta: "Visiting Student · Berkeley Global Access Program"
+  - title: "Huazhong University of Science and Technology"
+    logo: "img/home/hust.png"
+    logo_mono: true
+    date: "Sep 2023 – Present"
+    meta: "B.Eng. Candidate · Electronic Information and Communications, Advanced Mathematics and Physics Track"
+    highlight: "GPA 4.58 / 5.00 · 91.5 / 100"
+
+honors:
+  - { year: "2024 – 26", title: "National Scholarship", detail: "three consecutive years" }
+  - { year: "2024 – 26", title: "Outstanding Student Scholarship", detail: "three consecutive years" }
+  - { year: "2025", title: "First Prize, Datang Cup National Final", detail: "ranked third nationally" }
+  - { year: "2023", title: "Silver Medal, Chinese Mathematical Olympiad (CMO)" }

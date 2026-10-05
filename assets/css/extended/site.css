@@ -1,0 +1,327 @@
+/* Homepage only. Uses the theme's own colours plus a single accent. */
+:root {
+    --accent: #002fa7;
+}
+
+:root[data-theme="dark"] {
+    --accent: #8ea6ff;
+}
+
+.main:has(> .home) {
+    max-width: calc(840px + var(--gap) * 2);
+}
+
+.home {
+    color: var(--content);
+    font-size: 15.5px;
+    line-height: 1.65;
+}
+
+.home a {
+    text-decoration: underline;
+    text-decoration-color: var(--tertiary);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+}
+
+.home a:hover {
+    color: var(--accent);
+    text-decoration-color: currentColor;
+}
+
+.home .meta,
+.home time {
+    color: var(--secondary);
+    font-size: 14px;
+}
+
+.home time {
+    flex: none;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+/* Intro */
+
+.intro {
+    padding-top: 20px;
+}
+
+.intro h1 {
+    margin-bottom: 14px;
+    font-size: 36px;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    color: var(--primary);
+}
+
+.intro h1 span {
+    margin-left: 12px;
+    font-size: 17px;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--secondary);
+}
+
+.intro .lead {
+    max-width: 44em;
+    margin-bottom: 14px;
+    font-size: 17px;
+    line-height: 1.6;
+}
+
+.intro .lead strong {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.intro p:not(.lead) {
+    display: grid;
+    grid-template-columns: 136px minmax(0, 1fr);
+}
+
+.intro p .meta {
+    line-height: 1.83;
+}
+
+.intro .sep {
+    margin: 0 8px;
+    color: var(--tertiary);
+}
+
+.jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+    margin-top: 26px;
+    font-size: 14px;
+}
+
+.jump a,
+.home h2 .more {
+    color: var(--secondary);
+    text-decoration: none;
+}
+
+/* Sections */
+
+.home section {
+    margin-top: 44px;
+    scroll-margin-top: 20px;
+}
+
+.home h2 {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--tertiary);
+    font-size: 23px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    color: var(--primary);
+}
+
+.home h2 .more {
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0;
+}
+
+/* Items: title on the left edge, date on the right */
+
+.item + .item {
+    margin-top: 18px;
+}
+
+.head,
+.lines li {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 4px 24px;
+}
+
+.home h3 {
+    font-size: 16.5px;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--primary);
+}
+
+.home h3 a {
+    text-decoration: none;
+}
+
+.item p {
+    max-width: calc(100% - 150px);
+}
+
+.item .meta + p {
+    margin-top: 4px;
+}
+
+.item .meta strong {
+    font-weight: 600;
+    color: var(--primary);
+}
+
+.item p strong {
+    font-weight: inherit;
+}
+
+.venue {
+    font-size: 14px;
+    color: var(--secondary);
+}
+
+.venue.accepted {
+    font-weight: 600;
+    color: var(--accent);
+}
+
+.footnote {
+    margin-top: 14px;
+    font-size: 13px;
+    color: var(--secondary);
+}
+
+.home sup {
+    font-size: 0.75em;
+    line-height: 0;
+}
+
+.lines {
+    list-style: none;
+}
+
+.lines li + li {
+    margin-top: 5px;
+}
+
+.lines strong {
+    display: inline-block;
+    min-width: 136px;
+    font-weight: 600;
+    color: var(--primary);
+}
+
+/* Images: avatar, institution logos, paper figures */
+
+.home img {
+    border-radius: 0;
+}
+
+.avatar {
+    float: right;
+    width: 132px;
+    height: 132px;
+    margin: 4px 0 16px 32px;
+    object-fit: cover;
+    border-radius: 6px !important;
+}
+
+.jump {
+    clear: both;
+}
+
+.has-logo {
+    display: grid;
+    grid-template-columns: 64px minmax(0, 1fr);
+    column-gap: 18px;
+}
+
+.org-logo {
+    width: 64px;
+    height: 64px;
+    margin-top: 3px;
+    object-fit: contain;
+}
+
+/* Dark marks would vanish on the dark theme, so show them in white there. */
+[data-theme="dark"] .org-logo.mono {
+    filter: brightness(0) invert(1);
+    opacity: 0.86;
+}
+
+.pub {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 28px;
+}
+
+.pub p {
+    max-width: none;
+}
+
+.thumb {
+    flex: none;
+    width: 210px;
+    padding: 5px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    line-height: 0;
+}
+
+.thumb img {
+    width: 100%;
+    height: 84px;
+    object-fit: contain;
+}
+
+@media (max-width: 600px) {
+    .avatar {
+        width: 96px;
+        height: 96px;
+        margin-left: 16px;
+    }
+
+    .has-logo {
+        grid-template-columns: 48px minmax(0, 1fr);
+        column-gap: 12px;
+    }
+
+    .org-logo {
+        width: 48px;
+        height: 48px;
+    }
+
+    .pub {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .thumb {
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .thumb img {
+        height: auto;
+    }
+
+    .head {
+        flex-wrap: wrap;
+    }
+
+    .intro p:not(.lead),
+    .lines strong {
+        display: block;
+    }
+
+    .intro p .meta {
+        display: block;
+    }
+
+    .item p {
+        max-width: none;
+    }
+
+    .lines li + li {
+        margin-top: 9px;
+    }
+}

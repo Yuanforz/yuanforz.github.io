@@ -1,0 +1,68 @@
+name: "邹殿元"
+name_alt: "Dianyuan Zou"
+lead: "我是**华中科技大学**本科生，目前在 **UC Berkeley Extension** 访学。"
+interests_label: "研究兴趣"
+interests: "表征学习；神经网络的学习与推理；主动感知与具身智能；计算机视觉"
+contact_label: "联系方式"
+links:
+  - { label: "邮箱", url: "mailto:dyforzhou@berkeley.edu" }
+  - { label: "GitHub", url: "https://github.com/yuanforz" }
+  - { label: "LinkedIn", url: "https://www.linkedin.com/in/dianyuan-zou-234b55415/" }
+
+
+labels:
+  publications: "论文"
+  research: "经历"
+  education: "教育背景"
+  honors: "荣誉奖项"
+  posts: "博客"
+  all_posts: "全部文章"
+
+pub_note: "共同第一作者"
+
+publications:
+  - title: "Rethinking the Readout: Unlocking Video Backbones for AI-Generated Video Detection"
+    url: "https://openreview.net/forum?id=rXN1Faijz6"
+    image: "img/home/pub-readout.jpg"
+    authors: 'Manni Cui<sup>&#42;</sup>, Ziheng Qin<sup>&#42;</sup>, ZiAn Wang, Ruiqi Liu, **Dianyuan Zou**, et al.'
+    venue: "NeurIPS 2026"
+    status: "已录用 · Poster"
+    accepted: true
+  - title: "GlobalForge: Towards Robust AI-Generated Image Detection"
+    url: "https://openreview.net/forum?id=ARbeXboTVC"
+    image: "img/home/pub-globalforge.jpg"
+    authors: 'Manni Cui<sup>&#42;</sup>, Ruiqi Liu<sup>&#42;</sup>, **Dianyuan Zou**<sup>&#42;</sup>, et al.'
+    venue: "ICLR 2027"
+    status: "审稿中"
+    accepted: false
+
+research:
+  - title: "西湖大学 · ENCODE 实验室"
+    logo: "img/home/westlake.png"
+    date: "2026.06 – 至今"
+    meta: "访问研究实习生 · 导师：Huan Wang 教授"
+    summary: "进行中的项目：研究当视觉模型被赋予**主动决定下一步看哪里的自由**，而不是被动接收固定的图像裁剪时，能否学到更好的表征。实现了训练框架（基于块因果 ViT 的 DINO 式自蒸馏，带观测获取头），正在 ImageNet 上评估。"
+  - title: "RoboMaster 机甲大师赛"
+    logo: "img/home/langya.png"
+    logo_mono: true
+    date: "2023 – 2025"
+    meta: "视觉算法组成员 · 华中科技大学狼牙战队"
+    summary: "使用 C++ 搭建实时**自动瞄准视觉流程**；完成 YOLO11-s 的训练、量化，并通过 OpenVINO 部署到 Intel NUC。"
+
+education:
+  - title: "University of California, Berkeley, Extension"
+    logo: "img/home/ucb.svg"
+    date: "2026.08 – 至今"
+    meta: "访问学生 · Berkeley Global Access Program"
+  - title: "华中科技大学"
+    logo: "img/home/hust.png"
+    logo_mono: true
+    date: "2023.09 – 至今"
+    meta: "工学学士在读 · 电子信息与通信，数理提高班"
+    highlight: "GPA 4.58 / 5.00 · 91.5 / 100"
+
+honors:
+  - { year: "2024 – 26", title: "国家奖学金", detail: "连续三年" }
+  - { year: "2024 – 26", title: "优秀学生奖学金", detail: "连续三年" }
+  - { year: "2025", title: "大唐杯全国总决赛一等奖", detail: "全国第三名" }
+  - { year: "2023", title: "中国数学奥林匹克（CMO）银牌" }
