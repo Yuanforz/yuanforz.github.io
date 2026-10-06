@@ -1,10 +1,21 @@
-/* Homepage only. Uses the theme's own colours plus a single accent. */
+/* Homepage and About page, plus the site-wide dark palette. */
 :root {
     --accent: #002fa7;
 }
 
+/* Dark theme, site-wide: a deep blue-black ground with soft off-white text,
+   replacing the theme's flat grey-on-grey. */
 :root[data-theme="dark"] {
-    --accent: #8ea6ff;
+    --accent: #78a9ff;
+    --theme: #0f1217;
+    --entry: #161a21;
+    --primary: #eef0f4;
+    --content: #d3d8e0;
+    --secondary: #8b94a3;
+    --tertiary: #343a46;
+    --border: #232832;
+    --code-bg: #1c212a;
+    --code-block-bg: #161a21;
 }
 
 .main:has(> .home) {
@@ -273,6 +284,12 @@
     opacity: 0.86;
 }
 
+/* Paper figures have white backgrounds; dim them so they don't glare. */
+[data-theme="dark"] .thumb {
+    border-color: transparent;
+    filter: brightness(0.84);
+}
+
 .pub {
     display: flex;
     align-items: flex-start;
@@ -351,4 +368,10 @@
     .lines li + li {
         margin-top: 9px;
     }
+}
+
+/* The theme greys the background of list pages (home, posts); keep every page
+   on the same ground as About and single posts. */
+.list {
+    background: var(--theme);
 }
