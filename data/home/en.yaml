@@ -48,11 +48,11 @@ research:
       representations when it is given the **freedom to actively decide where
       to look next**, rather than being fed a fixed set of crops. Implemented
       the training framework (DINO-style self-distillation on a block-causal
-      ViT with an acquisition head) and am evaluating it on ImageNet.
+      ViT with an acquisition head); currently evaluating it on ImageNet.
   - title: "RoboMaster Global Robotics Competition"
     logo: "img/home/langya.png"
     logo_mono: true
-    date: "2023 – 2025"
+    date: "Oct 2023 – Aug 2025"
     meta: "Vision Algorithm Member · Langya Algorithm Group, HUST"
     summary: >-
       Built the real-time **auto-aiming vision pipeline** in C++. Trained,
@@ -73,5 +73,4 @@ education:
 honors:
   - { year: "2024 – 26", title: "National Scholarship", detail: "three consecutive years" }
   - { year: "2024 – 26", title: "Outstanding Student Scholarship", detail: "three consecutive years" }
-  - { year: "2025", title: "First Prize, Datang Cup National Final", detail: "ranked third nationally" }
   - { year: "2023", title: "Silver Medal, Chinese Mathematical Olympiad (CMO)" }

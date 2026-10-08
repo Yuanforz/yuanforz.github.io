@@ -46,7 +46,7 @@ research:
   - title: "RoboMaster 机甲大师赛"
     logo: "img/home/langya.png"
     logo_mono: true
-    date: "2023 – 2025"
+    date: "2023.10 – 2025.08"
     meta: "视觉算法组成员 · 华中科技大学狼牙战队"
     summary: "使用 C++ 搭建实时**自动瞄准视觉流程**；完成 YOLO11-s 的训练、量化，并通过 OpenVINO 部署到 Intel NUC。"
 
@@ -65,5 +65,4 @@ education:
 honors:
   - { year: "2024 – 26", title: "国家奖学金", detail: "连续三年" }
   - { year: "2024 – 26", title: "优秀学生奖学金", detail: "连续三年" }
-  - { year: "2025", title: "大唐杯全国总决赛一等奖", detail: "全国第三名" }
   - { year: "2023", title: "中国数学奥林匹克（CMO）银牌" }
