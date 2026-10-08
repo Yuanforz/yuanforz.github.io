@@ -31,11 +31,11 @@ publications:
     status: "Accepted · Poster"
     accepted: true
   - title: "GlobalForge: Towards Robust AI-Generated Image Detection"
-    url: "https://openreview.net/forum?id=ARbeXboTVC"
+    url: "https://arxiv.org/abs/2607.14684"
     image: "img/home/pub-globalforge.jpg"
     authors: 'Manni Cui<sup>&#42;</sup>, Ruiqi Liu<sup>&#42;</sup>, **Dianyuan Zou**<sup>&#42;</sup>, et al.'
-    venue: "ICLR 2027"
-    status: "Under review"
+    venue: "Preprint"
+    status: "arXiv:2607.14684"
     accepted: false
 
 research:
@@ -61,12 +61,12 @@ research:
 education:
   - title: "University of California, Berkeley, Extension"
     logo: "img/home/ucb.svg"
-    date: "Aug 2026 – Present"
+    date: "Aug 2026 – May 2027"
     meta: "Visiting Student · Berkeley Global Access Program"
   - title: "Huazhong University of Science and Technology"
     logo: "img/home/hust.png"
     logo_mono: true
-    date: "Sep 2023 – Present"
+    date: "Sep 2023 – Jun 2027"
     meta: "B.Eng. Candidate · Electronic Information and Communications, Advanced Mathematics and Physics Track"
     highlight: "GPA 4.58 / 5.00 · 91.5 / 100"
 

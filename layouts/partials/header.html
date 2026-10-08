@@ -90,8 +90,10 @@
             {{- $menu_item_url := (cond (strings.HasSuffix .URL "/") .URL (printf "%s/" .URL) ) | absLangURL }}
             {{- $page_url:= $currentPage.Permalink | absLangURL }}
             {{- $is_search := eq (site.GetPage .KeyName).Layout `search` }}
-            {{- /* Files such as the resume PDF live outside the language subdirectories. */}}
-            {{- $href := cond (strings.HasSuffix .URL ".pdf") (.URL | absURL) (.URL | absLangURL) }}
+            {{- /* A menu item may point straight at a file (the resume PDF) via params.href;
+                   such files live outside the language subdirectories and keep their case. */}}
+            {{- $href := .URL | absLangURL }}
+            {{- with .Params.href }}{{ $href = . | absURL }}{{ end }}
             <li>
                 <a href="{{ $href }}" title="{{ .Title | default .Name }} {{- cond $is_search (" (Alt + /)" | safeHTMLAttr) ("" | safeHTMLAttr ) }}"
                 {{- cond $is_search (" accesskey=/" | safeHTMLAttr) ("" | safeHTMLAttr ) }}>
