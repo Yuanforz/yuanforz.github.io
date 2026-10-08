@@ -60,7 +60,7 @@ education:
     logo_mono: true
     date: "2023.09 – 2027.06"
     meta: "工学学士在读 · 电子信息与通信，数理提高班"
-    highlight: "GPA 4.58 / 5.00 · 91.5 / 100"
+    highlight: "GPA 4.58 / 5.00"
 
 honors:
   - { year: "2024 – 26", title: "国家奖学金", detail: "连续三年" }
