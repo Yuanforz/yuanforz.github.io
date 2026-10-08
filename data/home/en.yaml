@@ -67,7 +67,7 @@ education:
     logo: "img/home/hust.png"
     logo_mono: true
     date: "Sep 2023 – Jun 2027"
-    meta: "B.Eng. Candidate · Electronic Information and Communications, Advanced Mathematics and Physics Track"
+    meta: 'B.Eng. Candidate · Electronic Information and Communications, <span class="nw">Advanced Mathematics and Physics Track</span>'
     highlight: "GPA 4.58 / 5.00"
 
 honors:

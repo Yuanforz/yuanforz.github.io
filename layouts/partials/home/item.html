@@ -3,7 +3,7 @@
   {{- with .logo }}<img class="org-logo{{ if $.logo_mono }} mono{{ end }}" src="{{ . | relURL }}" alt="" width="64" height="64" loading="lazy">{{ end }}
   <div>
     <div class="head"><h3>{{ .title }}</h3><time>{{ .date }}</time></div>
-    <p class="meta">{{ .meta }}</p>
+    <p class="meta">{{ .meta | safeHTML }}</p>
     {{- with .summary }}<p>{{ . | markdownify }}</p>{{ end }}
     {{- with .highlight }}<p>{{ . }}</p>{{ end }}
   </div>

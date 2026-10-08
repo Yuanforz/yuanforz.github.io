@@ -375,3 +375,10 @@
 .list {
     background: var(--theme);
 }
+
+/* Keep a phrase together when a line has to wrap (phones may still break it). */
+@media (min-width: 601px) {
+    .nw {
+        white-space: nowrap;
+    }
+}
