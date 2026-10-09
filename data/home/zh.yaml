@@ -2,7 +2,7 @@ name: "邹殿元"
 name_alt: "Dianyuan Zou"
 lead: "我是**华中科技大学**本科生，目前在 **UC Berkeley Extension** 访学。"
 interests_label: "研究兴趣"
-interests: "表征学习；神经网络的学习与推理；主动感知与具身智能；计算机视觉"
+interests: "表征学习；神经网络的自我改进；计算机视觉"
 contact_label: "联系方式"
 links:
   - { label: "邮箱", url: "mailto:dyforzhou@berkeley.edu" }
