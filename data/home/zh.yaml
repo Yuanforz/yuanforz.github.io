@@ -33,7 +33,7 @@ publications:
     url: "https://arxiv.org/abs/2607.14684"
     image: "img/home/pub-globalforge.jpg"
     authors: 'Manni Cui<sup>&#42;</sup>, Ruiqi Liu<sup>&#42;</sup>, **Dianyuan Zou**<sup>&#42;</sup>, et al.'
-    venue: "Preprint"
+    venue: "Preprint, 2026"
     accepted: false
 
 research:
@@ -41,7 +41,7 @@ research:
     logo: "img/home/westlake.png"
     date: "2026.06 – 至今"
     meta: "访问研究实习生 · 导师：Huan Wang 教授"
-    summary: "进行中的项目：研究当视觉模型被赋予**主动决定下一步看哪里的自由**，而不是被动接收固定的图像裁剪时，能否学到更好的表征。实现了训练框架（基于块因果 ViT 的 DINO 式自蒸馏，带观测获取头），正在 ImageNet 上评估。"
+    summary: "提出并主导一个面向自监督表征学习的主动视觉项目：研究当视觉模型**主动决定下一步看哪里**，而不是被动接收固定的图像裁剪时，能否学到更好的表征。搭建了训练框架（基于块因果 ViT 的 DINO 式自蒸馏，带可学习的观测获取头），正在 ImageNet 上与 DINO 对比评估。"
   - title: "RoboMaster 机甲大师赛"
     logo: "img/home/langya.png"
     logo_mono: true

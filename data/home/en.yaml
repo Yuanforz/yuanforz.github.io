@@ -34,7 +34,7 @@ publications:
     url: "https://arxiv.org/abs/2607.14684"
     image: "img/home/pub-globalforge.jpg"
     authors: 'Manni Cui<sup>&#42;</sup>, Ruiqi Liu<sup>&#42;</sup>, **Dianyuan Zou**<sup>&#42;</sup>, et al.'
-    venue: "Preprint"
+    venue: "Preprint, 2026"
     accepted: false
 
 research:
@@ -43,11 +43,12 @@ research:
     date: "Jun 2026 – Present"
     meta: "Visiting Research Intern · Advisor: Prof. Huan Wang"
     summary: >-
-      Ongoing project: investigating whether a vision model learns better
-      representations when it is given the **freedom to actively decide where
-      to look next**, rather than being fed a fixed set of crops. Implemented
-      the training framework (DINO-style self-distillation on a block-causal
-      ViT with an acquisition head); currently evaluating it on ImageNet.
+      Proposed and lead a project on active vision for self-supervised
+      representation learning: does a vision model learn better representations
+      when it **actively decides where to look next**, instead of receiving a
+      fixed set of crops? Built the training framework (DINO-style
+      self-distillation on a block-causal ViT with a learned acquisition head);
+      currently benchmarking against DINO on ImageNet.
   - title: "RoboMaster Global Robotics Competition"
     logo: "img/home/langya.png"
     logo_mono: true
