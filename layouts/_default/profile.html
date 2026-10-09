@@ -32,7 +32,7 @@
       <div>
         <h3><a href="{{ .url }}" target="_blank" rel="noopener">{{ .title }}</a></h3>
         <p class="meta">{{ .authors | markdownify }}</p>
-        <p class="venue{{ if .accepted }} accepted{{ end }}">{{ .venue }} · {{ .status }}</p>
+        <p class="venue{{ if .accepted }} accepted{{ end }}">{{ .venue }}{{ with .status }} · {{ . }}{{ end }}</p>
       </div>
       {{- with .image }}<a class="thumb" href="{{ $u }}" target="_blank" rel="noopener"><img src="{{ . | relURL }}" alt="" loading="lazy"></a>{{ end }}
     </article>
