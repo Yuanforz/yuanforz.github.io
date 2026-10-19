@@ -1,0 +1,8 @@
+{{- /* Overlay for the homepage intro; hidden unless the head script added html.intro-play. */ -}}
+<div id="intro-anim">
+  <div class="intro-bg"></div>
+  <canvas aria-hidden="true"></canvas>
+  <button class="intro-skip" type="button">{{ cond (eq site.Language.Lang "zh") "跳过" "Skip" }}</button>
+</div>
+{{- $js := resources.Get "js/intro.js" | minify | fingerprint }}
+<script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>

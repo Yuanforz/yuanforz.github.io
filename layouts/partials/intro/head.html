@@ -1,0 +1,67 @@
+{{- /* Homepage intro animation: decide before first paint whether it plays.
+       It is skipped for 5 minutes after it last played, and whenever the visit
+       has a #anchor, comes from back/forward, prefers reduced motion or saves data.
+       Runs after the theme script, so data-theme is already set. */ -}}
+<script>
+  (function () {
+    var KEY = "yuanforz-intro-last", WINDOW = 5 * 60 * 1000;
+    try {
+      if (location.hash) return;
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      var conn = navigator.connection;
+      if (conn && conn.saveData) return;
+      var nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+      if (nav && nav.type === "back_forward") return;
+      var now = Date.now(), last = Number(localStorage.getItem(KEY)) || 0;
+      if (now - last >= 0 && now - last < WINDOW) return;
+      localStorage.setItem(KEY, String(now));
+      document.documentElement.classList.add("intro-play");
+    } catch (e) {
+      /* No storage, no rate limit: skip the animation rather than replay it on every load. */
+    }
+  })();
+</script>
+<style>
+  #intro-anim { display: none; }
+  html.intro-play #intro-anim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+  }
+  /* Cover the page until the intro script takes over, so the content never flashes. */
+  html.intro-play body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: var(--theme);
+  }
+  html.intro-ready body::before { display: none; }
+  #intro-anim .intro-bg { position: absolute; inset: 0; background: var(--theme); }
+  #intro-anim canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  #intro-anim .intro-skip {
+    position: absolute;
+    top: calc(env(safe-area-inset-top, 0px) + 18px);
+    right: calc(env(safe-area-inset-right, 0px) + 22px);
+    padding: 6px 4px;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+  #intro-anim .intro-skip:hover,
+  #intro-anim .intro-skip:focus-visible { color: var(--primary); }
+  /* The header logo stays hidden until the particles land on it. */
+  html.intro-play .header .logo > a { opacity: 0; }
+  html.intro-play.intro-landed .header .logo > a { opacity: 1; transition: opacity 0.3s ease-out; }
+  /* Safety net: if the script never runs, uncover the page after 5 seconds. */
+  html.intro-play body::before,
+  html.intro-play #intro-anim { animation: intro-failsafe 0s 5s forwards; }
+  html.intro-play .header .logo > a { animation: intro-failsafe-show 0s 5s forwards; }
+  @keyframes intro-failsafe { to { visibility: hidden; } }
+  @keyframes intro-failsafe-show { to { opacity: 1; } }
+</style>

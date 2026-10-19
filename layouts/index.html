@@ -1,6 +1,7 @@
 {{- define "main" }}
 {{- $d := index hugo.Data.home site.Language.Lang }}
 {{- $l := $d.labels }}
+{{- partial "intro/overlay.html" . }}
 <div class="home">
 
   {{- $about := "about/" | relLangURL }}
