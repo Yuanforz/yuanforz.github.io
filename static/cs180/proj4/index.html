@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="CS180 Project 4A: homographies, inverse warping, rectification and photo mosaics.">
+<title>Photo Mosaics - CS180 Project 4 - Yuan</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<header class="masthead"><a class="brand" href="#top"><span class="brand-square">04</span><span>CS180 / FIELD NOTES</span></a>
+<nav><a href="#a1">A.1 SHOOT</a><a href="#a2">A.2 HOMOGRAPHY</a><a href="#a3">A.3 WARP</a><a href="#a4">A.4 MOSAIC</a><a href="#a5">A.5 CYLINDER</a></nav></header>
+<main class="page" id="top">
+<section class="hero">
+ <p class="eyebrow">Computational photography / Project 04 / Part A</p>
+ <h1>One point,<br><em>many views.</em></h1>
+ <div class="hero-row">
+  <div><p class="hero-deck">Photos taken by turning a phone in place, registered with hand-picked homographies, warped with my own nearest-neighbor and bilinear samplers, and blended.</p>
+  <p class="hero-meta">Yuan · CS180 · Fall 2026<br>Image warping and mosaicing</p></div>
+  <figure class="plate"><a href="assets/cylinder/plaza_wide.jpg"><img src="assets/cylinder/plaza_wide.jpg" width="2400" height="957" alt="168 degree cylindrical mosaic of the Campanile plaza" loading="lazy"></a><figcaption>Four photos, 168°, cylindrical projection (A.5)</figcaption></figure>
+ </div>
+</section>
+
+<section id="a1">
+ <div class="section-title"><span class="num">A.1</span><h2>Shoot the pictures</h2></div>
+ <p class="lede">All 51 photos come from a Pixel 7a. The mosaics use the main camera (5.43 mm, 25 mm equivalent, 4624×3472) handheld, turning in place around the lens. I shot full sweeps in three places on Oct 25 evening and used neighbouring frames that overlap by roughly 50–80%.</p>
+ <table><tr><th>Set</th><th>Photos used</th><th>Turn between frames</th><th>Scene</th></tr>
+ <tr><td>Plaza</td><td>3 (+1 for A.5)</td><td>≈ 31°</td><td>Bike racks, Sather Tower, O'Brien Hall</td></tr>
+ <tr><td>Glade</td><td>3</td><td>≈ 14–24°</td><td>Memorial Glade from the terrace balustrade</td></tr>
+ <tr><td>Lobby</td><td>3</td><td>≈ 18–19°</td><td>Dorm entrance, door, sofa, Cal sign</td></tr></table>
+ <figure class="fig"><a href="assets/sources/plaza.jpg"><img src="assets/sources/plaza.jpg" width="1600" height="396" alt="plaza source photos" loading="lazy"></a><figcaption>Plaza</figcaption></figure>
+ <figure class="fig"><a href="assets/sources/glade.jpg"><img src="assets/sources/glade.jpg" width="1600" height="396" alt="glade source photos" loading="lazy"></a><figcaption>Glade</figcaption></figure>
+ <figure class="fig"><a href="assets/sources/lobby.jpg"><img src="assets/sources/lobby.jpg" width="1600" height="396" alt="lobby source photos" loading="lazy"></a><figcaption>Lobby</figcaption></figure>
+</section>
+
+<section id="a2">
+ <div class="section-title"><span class="num">A.2</span><h2>Recover homographies</h2></div>
+ <p class="lede"><code>computeH(im1_pts, im2_pts)</code> solves for the eight unknowns of H, with H<sub>33</sub> = 1, by least squares over all correspondences.</p>
+ <p>Each pair (x, y) → (x′, y′) gives two linear equations, from x′(gx + hy + 1) = ax + by + c and the same for y′:</p>
+ <div class="eq">[ x  y  1  0  0  0  −x′x  −x′y ] h = x′
+[ 0  0  0  x  y  1  −y′x  −y′y ] h = y′        h = [a b c d e f g h]ᵀ</div>
+ <p>Stacking n pairs gives a 2n×8 system A h = b, solved with <code>np.linalg.lstsq</code>. Before solving, both point sets are moved to zero mean and scaled to an average distance of √2. This normalization undoes itself afterward and keeps the x′x terms (≈10⁷ px²) from dominating. With exact synthetic data the code recovers H to 10⁻¹³. The first two correspondences of Plaza 2 → 3 give these rows before normalization:</p>
+ <div class="eq">[     2534    323.7        1        0        0        0 -1442831  -184303 ] h = 569.4
+[        0        0        0     2534    323.7        1  -220150   -28121 ] h = 86.9
+[     3075    739.8        1        0        0        0 -3752435  -902842 ] h = 1220.3
+[        0        0        0     3075    739.8        1 -2006012  -482649 ] h = 652.4</div>
+ <h3>Picking correspondences</h3>
+ <p>Points were picked by hand on gridded 1000-px previews of the first photo. For every pair, 3–4 of them were also matched by eye in the second photo. From those anchors, a camera rotation (using the EXIF focal length) predicts where the other points land. Each point is placed by normalized cross-correlation: the first photo is warped into the second view, and a 41×41 template is searched within ±80 px. Matches with NCC below 0.8 were dropped. I also removed points on nearby lamp posts and lanterns: the phone was handheld, so the center of projection moved slightly, and close objects shift against the background. Residuals are in full-resolution pixels.</p>
+ <table><tr><th>Pair</th><th>Points</th><th>Turn</th><th>RMS px</th><th>Max px</th></tr><tr><td>Plaza 1 → 2</td><td class=n>10</td><td class=n>31°</td><td class=n>7.4</td><td class=n>14.4</td></tr><tr><td>Plaza 2 → 3</td><td class=n>17</td><td class=n>30°</td><td class=n>12.1</td><td class=n>19.8</td></tr><tr><td>Glade 1 → 2</td><td class=n>18</td><td class=n>24°</td><td class=n>4.7</td><td class=n>12.5</td></tr><tr><td>Glade 2 → 3</td><td class=n>18</td><td class=n>14°</td><td class=n>5.0</td><td class=n>11.0</td></tr><tr><td>Lobby 1 → 2</td><td class=n>16</td><td class=n>18°</td><td class=n>6.0</td><td class=n>12.0</td></tr><tr><td>Lobby 2 → 3</td><td class=n>13</td><td class=n>19°</td><td class=n>7.7</td><td class=n>14.8</td></tr><tr><td>Plaza 3 → 4</td><td class=n>15</td><td class=n>30°</td><td class=n>12.4</td><td class=n>22.9</td></tr></table>
+ <figure class="fig"><a href="assets/points/plaza_08_09.jpg"><img src="assets/points/plaza_08_09.jpg" width="1600" height="596" alt="plaza 1 to 2 correspondences" loading="lazy"></a><figcaption>Plaza 1 → 2</figcaption></figure>
+ <figure class="fig"><a href="assets/points/plaza_09_10.jpg"><img src="assets/points/plaza_09_10.jpg" width="1600" height="596" alt="plaza 2 to 3 correspondences" loading="lazy"></a><figcaption>Plaza 2 → 3</figcaption></figure>
+ <figure class="fig"><a href="assets/points/glade_19_20.jpg"><img src="assets/points/glade_19_20.jpg" width="1600" height="596" alt="glade 1 to 2 correspondences" loading="lazy"></a><figcaption>Glade 1 → 2</figcaption></figure>
+ <figure class="fig"><a href="assets/points/glade_20_21.jpg"><img src="assets/points/glade_20_21.jpg" width="1600" height="596" alt="glade 2 to 3 correspondences" loading="lazy"></a><figcaption>Glade 2 → 3</figcaption></figure>
+ <figure class="fig"><a href="assets/points/lobby_38_39.jpg"><img src="assets/points/lobby_38_39.jpg" width="1600" height="596" alt="lobby 1 to 2 correspondences" loading="lazy"></a><figcaption>Lobby 1 → 2</figcaption></figure>
+ <figure class="fig"><a href="assets/points/lobby_39_40.jpg"><img src="assets/points/lobby_39_40.jpg" width="1600" height="596" alt="lobby 2 to 3 correspondences" loading="lazy"></a><figcaption>Lobby 2 → 3</figcaption></figure>
+ <figure class="fig"><a href="assets/points/plaza_10_11.jpg"><img src="assets/points/plaza_10_11.jpg" width="1600" height="596" alt="plaza 3 to 4 correspondences" loading="lazy"></a><figcaption>Plaza 3 → 4 (used only in A.5)</figcaption></figure>
+ <h3>Recovered matrices (full-resolution pixels, image 1 → image 2)</h3>
+ <div class="matrices"><div><span>Plaza 1 → 2</span><div class="matrix"><span>2.6055</span><span>0.1449</span><span>-5677.8</span><span>0.5253</span><span>2.1944</span><span>-2029.5</span><span>3.414e-04</span><span>2.618e-05</span><span>1</span></div></div><div><span>Plaza 2 → 3</span><div class="matrix"><span>2.5202</span><span>0.1220</span><span>-5398.6</span><span>0.5299</span><span>2.0716</span><span>-1850.6</span><span>3.292e-04</span><span>-1.026e-06</span><span>1</span></div></div><div><span>Glade 1 → 2</span><div class="matrix"><span>1.7750</span><span>0.0150</span><span>-2960.3</span><span>0.2858</span><span>1.4392</span><span>-608.5</span><span>1.756e-04</span><span>-2.631e-05</span><span>1</span></div></div><div><span>Glade 2 → 3</span><div class="matrix"><span>1.4030</span><span>0.0783</span><span>-1528.3</span><span>0.0917</span><span>1.2361</span><span>-355.6</span><span>8.942e-05</span><span>-7.571e-07</span><span>1</span></div></div><div><span>Lobby 1 → 2</span><div class="matrix"><span>1.8348</span><span>0.1116</span><span>-2770.0</span><span>0.1919</span><span>1.5544</span><span>-744.1</span><span>1.638e-04</span><span>1.027e-05</span><span>1</span></div></div><div><span>Lobby 2 → 3</span><div class="matrix"><span>1.7802</span><span>0.0533</span><span>-2674.0</span><span>0.2290</span><span>1.4900</span><span>-727.8</span><span>1.526e-04</span><span>-5.230e-06</span><span>1</span></div></div><div><span>Plaza 3 → 4</span><div class="matrix"><span>2.6324</span><span>0.2770</span><span>-5800.9</span><span>0.4720</span><span>2.2088</span><span>-1717.9</span><span>3.526e-04</span><span>2.165e-05</span><span>1</span></div></div></div>
+ <p>The plaza residuals are larger because these pairs mix paving 2–5 m away with buildings 20–50 m away. The phone moved a few centimeters while turning, which puts these depths a few pixels apart. At the 0.3125× working scale, a 12 px RMS becomes about 4 px.</p>
+</section>
+
+<section id="a3">
+ <div class="section-title"><span class="num">A.3</span><h2>Warp the images</h2></div>
+ <p class="lede"><code>warpImageNearestNeighbor(im, H)</code> and <code>warpImageBilinear(im, H)</code> both use inverse warping. Every output pixel is sent back through H⁻¹ and read from the source, so the output has no holes.</p>
+ <ol class="steps">
+  <li>The output box is the bounding box of the four source corners mapped by H (or a box given by the caller).</li>
+  <li>Pixel centers sit on integer coordinates: (0, 0) is the center of the top-left pixel. For each output row block, the source coordinates (u, v) = H⁻¹(x, y) are computed in one vectorized step.</li>
+  <li>Nearest neighbor rounds (u, v). Bilinear takes the four surrounding pixels, weighted by (1−fx)(1−fy), fx(1−fy), (1−fx)fy and fx·fy.</li>
+  <li>An alpha mask records which output pixels came from inside the source. The sign of H⁻¹ is fixed so that points in front of the source camera have w &gt; 0.</li>
+ </ol>
+ <p>Rectification: four hand-clicked corners of a known rectangle map to an axis-aligned rectangle. For the windows I did not know the real width/height ratio, so I recovered it: back-projecting the four corners as rays with the EXIF focal length and requiring them to form a parallelogram fixes the 3D rectangle up to scale. Its corner angle (87–89°) is a check on the clicks.</p>
+ 
+<h3>Ground plane</h3>
+<p>Ultra-wide shot of the plaza in front of McLaughlin Hall. The four corners of one granite square map to a square, so the camera seems to look straight down. All the other squares and the brick bands come out square and parallel too. Target shape: square (1 : 1). The EXIF focal length estimate gives 1.14; this is an ultra-wide photo, so I used the known shape.</p>
+<div class="grid3">
+ <figure class="fig"><a href="assets/rectify/plaza_stone_source.jpg"><img src="assets/rectify/plaza_stone_source.jpg" width="1051" height="1400" alt="Ground plane source with picked corners" loading="lazy"></a><figcaption>Input with picked corners</figcaption></figure>
+ <figure class="fig"><a href="assets/rectify/plaza_stone_nearest.jpg"><img src="assets/rectify/plaza_stone_nearest.jpg" width="1170" height="1196" alt="Ground plane nearest neighbor" loading="lazy"></a><figcaption>Nearest neighbor, 0.055 s</figcaption></figure>
+ <figure class="fig"><a href="assets/rectify/plaza_stone_bilinear.jpg"><img src="assets/rectify/plaza_stone_bilinear.jpg" width="1170" height="1196" alt="Ground plane bilinear" loading="lazy"></a><figcaption>Bilinear, 0.103 s</figcaption></figure>
+</div>
+<div class="labels two"><span>Nearest neighbor, 3×</span><span>Bilinear, 3×</span></div>
+<figure class="fig"><a href="assets/rectify/plaza_stone_zoom.jpg"><img src="assets/rectify/plaza_stone_zoom.jpg" width="852" height="420" alt="Ground plane zoom comparison" loading="lazy"></a></figure>
+<h3>Facade</h3>
+<p>The inner corners of the lower window panes map to a rectangle. The rest of the grid and the lintel lettering straighten out. Target shape: 1.09 : 1, recovered from the corners and EXIF focal length (corner angle 87.2°).</p>
+<div class="grid3">
+ <figure class="fig"><a href="assets/rectify/mclaughlin_window_source.jpg"><img src="assets/rectify/mclaughlin_window_source.jpg" width="1051" height="1400" alt="Facade source with picked corners" loading="lazy"></a><figcaption>Input with picked corners</figcaption></figure>
+ <figure class="fig"><a href="assets/rectify/mclaughlin_window_nearest.jpg"><img src="assets/rectify/mclaughlin_window_nearest.jpg" width="777" height="1260" alt="Facade nearest neighbor" loading="lazy"></a><figcaption>Nearest neighbor, 0.031 s</figcaption></figure>
+ <figure class="fig"><a href="assets/rectify/mclaughlin_window_bilinear.jpg"><img src="assets/rectify/mclaughlin_window_bilinear.jpg" width="777" height="1260" alt="Facade bilinear" loading="lazy"></a><figcaption>Bilinear, 0.059 s</figcaption></figure>
+</div>
+<div class="labels two"><span>Nearest neighbor, 3×</span><span>Bilinear, 3×</span></div>
+<figure class="fig"><a href="assets/rectify/mclaughlin_window_zoom.jpg"><img src="assets/rectify/mclaughlin_window_zoom.jpg" width="852" height="420" alt="Facade zoom comparison" loading="lazy"></a></figure>
+<h3>Receding wall</h3>
+<p>A wall seen at a steep angle. After rectification the lower sash faces the camera, and the next window bay further down the wall appears beside it, heavily magnified. Target shape: 0.87 : 1, recovered from the corners and EXIF focal length (corner angle 89.4°).</p>
+<div class="grid3">
+ <figure class="fig"><a href="assets/rectify/side_wall_source.jpg"><img src="assets/rectify/side_wall_source.jpg" width="1051" height="1400" alt="Receding wall source with picked corners" loading="lazy"></a><figcaption>Input with picked corners</figcaption></figure>
+ <figure class="fig"><a href="assets/rectify/side_wall_nearest.jpg"><img src="assets/rectify/side_wall_nearest.jpg" width="1110" height="615" alt="Receding wall nearest neighbor" loading="lazy"></a><figcaption>Nearest neighbor, 0.022 s</figcaption></figure>
+ <figure class="fig"><a href="assets/rectify/side_wall_bilinear.jpg"><img src="assets/rectify/side_wall_bilinear.jpg" width="1110" height="615" alt="Receding wall bilinear" loading="lazy"></a><figcaption>Bilinear, 0.053 s</figcaption></figure>
+</div>
+<div class="labels two"><span>Nearest neighbor, 3×</span><span>Bilinear, 3×</span></div>
+<figure class="fig"><a href="assets/rectify/side_wall_zoom.jpg"><img src="assets/rectify/side_wall_zoom.jpg" width="852" height="420" alt="Receding wall zoom comparison" loading="lazy"></a></figure>
+ <h3>Speed and quality</h3>
+ <table><tr><th>Method</th><th>Time, 1.40 MP output</th><th>What it looks like</th></tr>
+ <tr><td>Nearest neighbor</td><td class=n>0.044 s</td><td>Staircase edges on mortar lines and lettering; blocky where the source is magnified (far side of the plaza and of the wall)</td></tr>
+ <tr><td>Bilinear</td><td class=n>0.090 s</td><td>Smooth edges, slightly softer fine texture</td></tr></table>
+ <p>Times are the median of 5 runs. Bilinear is about 2.1× slower: it reads four pixels and does six multiply-adds per channel instead of one lookup. In absolute terms it is still under 0.1 s per megapixel, so I use bilinear for all mosaics. Nearest neighbor is only worth it for label maps or masks, where averaging values would be wrong.</p>
+</section>
+
+<section id="a4">
+ <div class="section-title"><span class="num">A.4</span><h2>Blend into mosaics</h2></div>
+ <ol class="steps">
+  <li>The middle photo is the reference. Each other photo gets H into the reference, computed directly from its own correspondences (computeH(points in photo 3, points in photo 2) rather than inverting the reverse fit).</li>
+  <li>Photos are loaded at 0.3125× (1445×1085). The homographies are rescaled for that pixel grid, and the canvas is the bounding box of all warped corners.</li>
+  <li>Each photo is warped bilinearly together with a weight map that is 1 at its center and falls linearly to 0 at every border. The weight map is warped by the same H, so it follows the photo's shape.</li>
+  <li>Two-band blend. The low band is a Gaussian blur (σ = 6 px, computed only inside each photo's mask). It is averaged with the weights, which removes exposure steps. The high band (photo − low band) comes only from the photo with the largest weight at each pixel, so small misalignments do not show up as double edges.</li>
+ </ol>
+ <div class="labels three"><span>Warped photo 1</span><span>Warped photo 2 (reference)</span><span>Warped photo 3</span></div>
+ <div class="grid3"><figure class="fig"><a href="assets/mosaics/plaza_layer0.jpg"><img src="assets/mosaics/plaza_layer0.jpg" width="900" height="417" alt="warped photo 1" loading="lazy"></a></figure><figure class="fig"><a href="assets/mosaics/plaza_layer1.jpg"><img src="assets/mosaics/plaza_layer1.jpg" width="900" height="417" alt="warped photo 2" loading="lazy"></a></figure><figure class="fig"><a href="assets/mosaics/plaza_layer2.jpg"><img src="assets/mosaics/plaza_layer2.jpg" width="900" height="417" alt="warped photo 3" loading="lazy"></a></figure></div>
+ <div class="labels three"><span>Weight 1</span><span>Weight 2</span><span>Weight 3</span></div>
+ <div class="grid3"><figure class="fig"><a href="assets/mosaics/plaza_weight0.jpg"><img src="assets/mosaics/plaza_weight0.jpg" width="900" height="417" alt="weight 1" loading="lazy"></a></figure><figure class="fig"><a href="assets/mosaics/plaza_weight1.jpg"><img src="assets/mosaics/plaza_weight1.jpg" width="900" height="417" alt="weight 2" loading="lazy"></a></figure><figure class="fig"><a href="assets/mosaics/plaza_weight2.jpg"><img src="assets/mosaics/plaza_weight2.jpg" width="900" height="417" alt="weight 3" loading="lazy"></a></figure></div>
+ <p>The comparison crops show three versions of each seam. Overwrite has hard exposure edges, because the phone metered each frame separately. Feathering hides those edges but averages misaligned detail into soft double images; look at the Glade rail and the plaza tree line. The two-band blend keeps the smooth exposure transition and single sharp edges.</p>
+ 
+<h3>Campanile plaza</h3>
+<p>Three photos turning about 31° each from the bike racks past Sather Tower to the glass front of O'Brien Hall. The plane of the middle photo stretches the outer photos by more than 2×. The paving lines run straight across both seams. Canvas 4960×2296 px, built in 4.2 s.</p>
+<figure class="fig"><a href="assets/sources/plaza.jpg"><img src="assets/sources/plaza.jpg" width="1600" height="396" alt="Campanile plaza source photos" loading="lazy"></a><figcaption>Source photos, left to right; the middle one is the reference</figcaption></figure>
+<figure class="fig"><a href="assets/mosaics/plaza.jpg"><img src="assets/mosaics/plaza.jpg" width="2400" height="1111" alt="Campanile plaza mosaic" loading="lazy"></a><figcaption>Mosaic: bilinear warp, two-band blend</figcaption></figure>
+<div class="labels three"><span>Overwrite</span><span>Feather</span><span>Two-band</span></div>
+<figure class="fig"><a href="assets/mosaics/plaza_seams.jpg"><img src="assets/mosaics/plaza_seams.jpg" width="1824" height="400" alt="Campanile plaza blending comparison crop" loading="lazy"></a></figure>
+<h3>Memorial Glade terrace</h3>
+<p>Taken from the balustrade above the Glade at sunset. Distant buildings and the terrace line up within a few pixels. The granite rail is only a meter away and shows a small step at the left seam. My phone moved a few centimeters between shots, and one homography cannot align objects at 1 m and 100 m at the same time. Canvas 2947×1699 px, built in 2.1 s.</p>
+<figure class="fig"><a href="assets/sources/glade.jpg"><img src="assets/sources/glade.jpg" width="1600" height="396" alt="Memorial Glade terrace source photos" loading="lazy"></a><figcaption>Source photos, left to right; the middle one is the reference</figcaption></figure>
+<figure class="fig"><a href="assets/mosaics/glade.jpg"><img src="assets/mosaics/glade.jpg" width="2400" height="1383" alt="Memorial Glade terrace mosaic" loading="lazy"></a><figcaption>Mosaic: bilinear warp, two-band blend</figcaption></figure>
+<div class="labels three"><span>Overwrite</span><span>Feather</span><span>Two-band</span></div>
+<figure class="fig"><a href="assets/mosaics/glade_seams.jpg"><img src="assets/mosaics/glade_seams.jpg" width="1824" height="400" alt="Memorial Glade terrace blending comparison crop" loading="lazy"></a></figure>
+<h3>Dorm lobby</h3>
+<p>An indoor corner at night with longer exposures and slight motion blur. The wavy door film, the door frame and the Cal sign continue across both seams. Canvas 2999×1637 px, built in 2.0 s.</p>
+<figure class="fig"><a href="assets/sources/lobby.jpg"><img src="assets/sources/lobby.jpg" width="1600" height="396" alt="Dorm lobby source photos" loading="lazy"></a><figcaption>Source photos, left to right; the middle one is the reference</figcaption></figure>
+<figure class="fig"><a href="assets/mosaics/lobby.jpg"><img src="assets/mosaics/lobby.jpg" width="2400" height="1309" alt="Dorm lobby mosaic" loading="lazy"></a><figcaption>Mosaic: bilinear warp, two-band blend</figcaption></figure>
+<div class="labels three"><span>Overwrite</span><span>Feather</span><span>Two-band</span></div>
+<figure class="fig"><a href="assets/mosaics/lobby_seams.jpg"><img src="assets/mosaics/lobby_seams.jpg" width="1824" height="400" alt="Dorm lobby blending comparison crop" loading="lazy"></a></figure>
+</section>
+
+<section id="a5">
+ <div class="section-title"><span class="num">A.5</span><h2>Bells &amp; whistles: cylindrical mapping</h2></div>
+ <p class="lede">The cylinder is sampled directly from the original photos, so each pixel is interpolated once, not resampled from an already-warped planar mosaic.</p>
+ <ol class="steps">
+  <li>An output pixel at angle θ and height h is the ray d = (sin θ, h, cos θ) in the reference camera.</li>
+  <li>That ray enters photo i at p = H<sub>i</sub>⁻¹ K d, where K uses the EXIF focal length (f = 1044 px at 0.3125×, which is also the cylinder radius). The photo is sampled bilinearly at p.</li>
+  <li>H<sub>i</sub>⁻¹ is signed so rays in front of camera i have w &gt; 0. Because p is never divided before H<sub>i</sub>⁻¹ is applied, this works for rays more than 90° from the reference, where the reference plane no longer exists.</li>
+  <li>The θ, h range comes from the photo borders mapped to rays. Weights and two-band blending are the same as in A.4.</li>
+ </ol>
+ <table><tr><th>Mosaic</th><th>Span</th><th>Cylinder px</th><th>Plane px</th></tr><tr><td>Plaza, 3 photos</td><td class=n>134°</td><td class=n>2449×1143</td><td>4960×2296</td></tr><tr><td>Glade, 3 photos</td><td class=n>108°</td><td class=n>1975×1150</td><td>2947×1699</td></tr><tr><td>Lobby, 3 photos</td><td class=n>110°</td><td class=n>2008×1144</td><td>2999×1637</td></tr><tr><td>Plaza, 4 photos</td><td class=n>168°</td><td class=n>3058×1219</td><td>not possible</td></tr></table>
+ <p>The four-photo plaza covers 168°. Its last photo points 100° away from the reference, so a planar mosaic cannot hold it. On the cylinder, the stretching at the sides is gone: the bike racks and the O'Brien Hall entrance keep their size, and the straight paving edge bends into a curve, as cylindrical maps do.</p>
+ <figure class="fig"><a href="assets/cylinder/plaza_wide.jpg"><img src="assets/cylinder/plaza_wide.jpg" width="2400" height="957" alt="four-photo cylindrical plaza" loading="lazy"></a><figcaption>Plaza, 4 photos, 168°</figcaption></figure>
+ <div class="labels two"><span>Plane</span><span>Cylinder</span></div>
+ <div class="grid2"><a href="assets/mosaics/plaza.jpg"><img src="assets/mosaics/plaza.jpg" width="2400" height="1111" alt="plaza planar" loading="lazy"></a><a href="assets/cylinder/plaza.jpg"><img src="assets/cylinder/plaza.jpg" width="2400" height="1120" alt="plaza cylindrical" loading="lazy"></a></div><br>
+ <div class="grid2"><a href="assets/mosaics/glade.jpg"><img src="assets/mosaics/glade.jpg" width="2400" height="1383" alt="glade planar" loading="lazy"></a><a href="assets/cylinder/glade.jpg"><img src="assets/cylinder/glade.jpg" width="1973" height="1149" alt="glade cylindrical" loading="lazy"></a></div><br>
+ <div class="grid2"><a href="assets/mosaics/lobby.jpg"><img src="assets/mosaics/lobby.jpg" width="2400" height="1309" alt="lobby planar" loading="lazy"></a><a href="assets/cylinder/lobby.jpg"><img src="assets/cylinder/lobby.jpg" width="2006" height="1143" alt="lobby cylindrical" loading="lazy"></a></div>
+</section>
+
+<section id="notes">
+ <div class="section-title"><span class="num">—</span><h2>Notes</h2></div>
+ <p>Everything is NumPy, with SciPy only for the Gaussian blur and Pillow for file input/output. No OpenCV or scikit-image homography or warping functions are used. <code>python code/main.py</code> regenerates every figure in about 30 s on a laptop. The correspondences live in <code>data/points/</code>, and <code>code/pick_points.py</code> re-clicks any pair with matplotlib's <code>ginput</code>.</p>
+ <p>AI assistance was used to write this webpage. The photos are mine.</p>
+</section>
+<footer>CS180 · Project 4A · Fall 2026</footer>
+</main>
+</body></html>
