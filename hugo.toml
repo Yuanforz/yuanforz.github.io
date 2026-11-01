@@ -29,6 +29,10 @@ timeZone = "Asia/Shanghai"
   ShowBreadCrumbs = true
   math = false
 
+  # Homepage intro: one of these plays at random.
+  [params.intro]
+    variants = ["write", "strokes", "slices", "contour", "particles"]
+
 [languages.zh]
   languageName = "中文"
   weight = 1

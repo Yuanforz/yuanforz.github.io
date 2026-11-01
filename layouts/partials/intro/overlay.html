@@ -1,8 +1,19 @@
-{{- /* Overlay for the homepage intro; hidden unless the head script added html.intro-play. */ -}}
-<div id="intro-anim">
+{{- /* Overlay for the homepage intro; hidden unless the head script added html.intro-play.
+       params.intro.variants lists the variants to pick from at random. */ -}}
+{{- $d := index hugo.Data.home site.Language.Lang }}
+{{- $variants := site.Params.intro.variants | default (slice "particles") }}
+<div id="intro-anim" data-variants="{{ delimit $variants " " }}" data-name="{{ $d.name }}">
   <div class="intro-bg"></div>
   <canvas aria-hidden="true"></canvas>
   <button class="intro-skip" type="button">{{ cond (eq site.Language.Lang "zh") "跳过" "Skip" }}</button>
 </div>
-{{- $js := resources.Get "js/intro.js" | minify | fingerprint }}
+{{- /* The live site ships only the configured variants; the local server ships all for previews. */ -}}
+{{- $parts := slice }}
+{{- if hugo.IsServer }}
+  {{- $parts = resources.Match "js/intro/variants/*.js" }}
+{{- else }}
+  {{- range $variants }}{{ with resources.Get (printf "js/intro/variants/%s.js" .) }}{{ $parts = $parts | append . }}{{ end }}{{ end }}
+{{- end }}
+{{- $parts = $parts | append (resources.Get "js/intro/core.js") }}
+{{- $js := $parts | resources.Concat "js/intro.js" | minify | fingerprint }}
 <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>

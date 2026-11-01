@@ -1,21 +1,47 @@
 {{- /* Homepage intro animation: decide before first paint whether it plays.
        It is skipped for 5 minutes after it last played, and whenever the visit
        has a #anchor, comes from back/forward, prefers reduced motion or saves data.
+       Chrome may prerender the page in the background before the visitor opens it;
+       then the page is covered now but only counts as played once it is shown.
+       ?intro=<variant> always plays that variant, for previews.
        Runs after the theme script, so data-theme is already set. */ -}}
 <script>
   (function () {
     var KEY = "yuanforz-intro-last", WINDOW = 5 * 60 * 1000;
-    try {
-      if (location.hash) return;
-      if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-      var conn = navigator.connection;
-      if (conn && conn.saveData) return;
-      var nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
-      if (nav && nav.type === "back_forward") return;
+    var root = document.documentElement;
+    var forced = /[?&]intro=/.test(location.search);
+    function playedRecently() {
       var now = Date.now(), last = Number(localStorage.getItem(KEY)) || 0;
-      if (now - last >= 0 && now - last < WINDOW) return;
-      localStorage.setItem(KEY, String(now));
-      document.documentElement.classList.add("intro-play");
+      return now - last >= 0 && now - last < WINDOW;
+    }
+    function markPlayed() { localStorage.setItem(KEY, String(Date.now())); }
+    try {
+      if (!forced) {
+        if (location.hash) return;
+        if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        var conn = navigator.connection;
+        if (conn && conn.saveData) return;
+        var nav = performance.getEntriesByType && performance.getEntriesByType("navigation")[0];
+        if (nav && nav.type === "back_forward") return;
+        if (playedRecently()) return;
+      }
+      if (document.prerendering) {
+        root.classList.add("intro-play", "intro-wait");
+        document.addEventListener("prerenderingchange", function () {
+          try {
+            if (!forced) {
+              if (playedRecently()) root.classList.remove("intro-play");
+              else markPlayed();
+            }
+          } catch (e) {
+            root.classList.remove("intro-play");
+          }
+          root.classList.remove("intro-wait");
+        }, { once: true });
+        return;
+      }
+      if (!forced) markPlayed();
+      root.classList.add("intro-play");
     } catch (e) {
       /* No storage, no rate limit: skip the animation rather than replay it on every load. */
     }
@@ -58,10 +84,10 @@
   /* The header logo stays hidden until the particles land on it. */
   html.intro-play .header .logo > a { opacity: 0; }
   html.intro-play.intro-landed .header .logo > a { opacity: 1; transition: opacity 0.3s ease-out; }
-  /* Safety net: if the script never runs, uncover the page after 5 seconds. */
-  html.intro-play body::before,
-  html.intro-play #intro-anim { animation: intro-failsafe 0s 5s forwards; }
-  html.intro-play .header .logo > a { animation: intro-failsafe-show 0s 5s forwards; }
+  /* Safety net: if the script never runs, uncover the page 5 seconds after it is shown. */
+  html.intro-play:not(.intro-wait) body::before,
+  html.intro-play:not(.intro-wait) #intro-anim { animation: intro-failsafe 0s 5s forwards; }
+  html.intro-play:not(.intro-wait) .header .logo > a { animation: intro-failsafe-show 0s 5s forwards; }
   @keyframes intro-failsafe { to { visibility: hidden; } }
   @keyframes intro-failsafe-show { to { opacity: 1; } }
 </style>
