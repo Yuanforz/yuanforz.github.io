@@ -1,17 +1,17 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="CS180 Project 4A: homographies, inverse warping, rectification and photo mosaics.">
-<title>Photo Mosaics - CS180 Project 4 - Yuan</title><link rel="stylesheet" href="style.css"></head>
+<meta name="description" content="CS180 Project 4: homographies, inverse warping, rectification, photo mosaics, and automatic stitching with Harris corners, MOPS descriptors and RANSAC.">
+<title>Photo Mosaics - CS180 Project 4 - Yuan</title><link rel="icon" href="data:,"><link rel="stylesheet" href="style.css"></head>
 <body>
 <header class="masthead"><a class="brand" href="#top"><span class="brand-square">04</span><span>CS180 / FIELD NOTES</span></a>
-<nav><a href="#a1">A.1 SHOOT</a><a href="#a2">A.2 HOMOGRAPHY</a><a href="#a3">A.3 WARP</a><a href="#a4">A.4 MOSAIC</a><a href="#a5">A.5 CYLINDER</a></nav></header>
+<nav><a href="#a1">A.1</a><a href="#a2">A.2</a><a href="#a3">A.3</a><a href="#a4">A.4</a><a href="#a5">A.5</a><a href="#b1">B.1</a><a href="#b2">B.2</a><a href="#b3">B.3</a><a href="#b4">B.4</a><a href="#b5">B.5</a></nav></header>
 <main class="page" id="top">
 <section class="hero">
- <p class="eyebrow">Computational photography / Project 04 / Part A</p>
+ <p class="eyebrow">Computational photography / Project 04 / Parts A and B</p>
  <h1>One point,<br><em>many views.</em></h1>
  <div class="hero-row">
-  <div><p class="hero-deck">Photos taken by turning a phone in place, registered with hand-picked homographies, warped with my own nearest-neighbor and bilinear samplers, and blended.</p>
-  <p class="hero-meta">Yuan · CS180 · Fall 2026<br>Image warping and mosaicing</p></div>
+  <div><p class="hero-deck">Photos taken by turning a phone in place. Part A registers them with hand-picked homographies, warps them with my own nearest-neighbor and bilinear samplers, and blends them. Part B finds the homographies automatically: Harris corners, MOPS descriptors, ratio-test matching and RANSAC.</p>
+  <p class="hero-meta">Yuan · CS180 · Fall 2026<br>Image warping, mosaicing and autostitching</p></div>
   <figure class="plate"><a href="assets/cylinder/plaza_wide.jpg"><img src="assets/cylinder/plaza_wide.jpg" width="2400" height="957" alt="168 degree cylindrical mosaic of the Campanile plaza" loading="lazy"></a><figcaption>Four photos, 168°, cylindrical projection (A.5)</figcaption></figure>
  </div>
 </section>
@@ -69,8 +69,8 @@
 <p>Ultra-wide shot of the plaza in front of McLaughlin Hall. The four corners of one granite square map to a square, so the camera seems to look straight down. All the other squares and the brick bands come out square and parallel too. Target shape: square (1 : 1). The EXIF focal length estimate gives 1.14; this is an ultra-wide photo, so I used the known shape.</p>
 <div class="grid3">
  <figure class="fig"><a href="assets/rectify/plaza_stone_source.jpg"><img src="assets/rectify/plaza_stone_source.jpg" width="1051" height="1400" alt="Ground plane source with picked corners" loading="lazy"></a><figcaption>Input with picked corners</figcaption></figure>
- <figure class="fig"><a href="assets/rectify/plaza_stone_nearest.jpg"><img src="assets/rectify/plaza_stone_nearest.jpg" width="1170" height="1196" alt="Ground plane nearest neighbor" loading="lazy"></a><figcaption>Nearest neighbor, 0.055 s</figcaption></figure>
- <figure class="fig"><a href="assets/rectify/plaza_stone_bilinear.jpg"><img src="assets/rectify/plaza_stone_bilinear.jpg" width="1170" height="1196" alt="Ground plane bilinear" loading="lazy"></a><figcaption>Bilinear, 0.103 s</figcaption></figure>
+ <figure class="fig"><a href="assets/rectify/plaza_stone_nearest.jpg"><img src="assets/rectify/plaza_stone_nearest.jpg" width="1170" height="1196" alt="Ground plane nearest neighbor" loading="lazy"></a><figcaption>Nearest neighbor, 0.069 s</figcaption></figure>
+ <figure class="fig"><a href="assets/rectify/plaza_stone_bilinear.jpg"><img src="assets/rectify/plaza_stone_bilinear.jpg" width="1170" height="1196" alt="Ground plane bilinear" loading="lazy"></a><figcaption>Bilinear, 0.110 s</figcaption></figure>
 </div>
 <div class="labels two"><span>Nearest neighbor, 3×</span><span>Bilinear, 3×</span></div>
 <figure class="fig"><a href="assets/rectify/plaza_stone_zoom.jpg"><img src="assets/rectify/plaza_stone_zoom.jpg" width="852" height="420" alt="Ground plane zoom comparison" loading="lazy"></a></figure>
@@ -78,8 +78,8 @@
 <p>The inner corners of the lower window panes map to a rectangle. The rest of the grid and the lintel lettering straighten out. Target shape: 1.09 : 1, recovered from the corners and EXIF focal length (corner angle 87.2°).</p>
 <div class="grid3">
  <figure class="fig"><a href="assets/rectify/mclaughlin_window_source.jpg"><img src="assets/rectify/mclaughlin_window_source.jpg" width="1051" height="1400" alt="Facade source with picked corners" loading="lazy"></a><figcaption>Input with picked corners</figcaption></figure>
- <figure class="fig"><a href="assets/rectify/mclaughlin_window_nearest.jpg"><img src="assets/rectify/mclaughlin_window_nearest.jpg" width="777" height="1260" alt="Facade nearest neighbor" loading="lazy"></a><figcaption>Nearest neighbor, 0.031 s</figcaption></figure>
- <figure class="fig"><a href="assets/rectify/mclaughlin_window_bilinear.jpg"><img src="assets/rectify/mclaughlin_window_bilinear.jpg" width="777" height="1260" alt="Facade bilinear" loading="lazy"></a><figcaption>Bilinear, 0.059 s</figcaption></figure>
+ <figure class="fig"><a href="assets/rectify/mclaughlin_window_nearest.jpg"><img src="assets/rectify/mclaughlin_window_nearest.jpg" width="777" height="1260" alt="Facade nearest neighbor" loading="lazy"></a><figcaption>Nearest neighbor, 0.040 s</figcaption></figure>
+ <figure class="fig"><a href="assets/rectify/mclaughlin_window_bilinear.jpg"><img src="assets/rectify/mclaughlin_window_bilinear.jpg" width="777" height="1260" alt="Facade bilinear" loading="lazy"></a><figcaption>Bilinear, 0.079 s</figcaption></figure>
 </div>
 <div class="labels two"><span>Nearest neighbor, 3×</span><span>Bilinear, 3×</span></div>
 <figure class="fig"><a href="assets/rectify/mclaughlin_window_zoom.jpg"><img src="assets/rectify/mclaughlin_window_zoom.jpg" width="852" height="420" alt="Facade zoom comparison" loading="lazy"></a></figure>
@@ -87,16 +87,16 @@
 <p>A wall seen at a steep angle. After rectification the lower sash faces the camera, and the next window bay further down the wall appears beside it, heavily magnified. Target shape: 0.87 : 1, recovered from the corners and EXIF focal length (corner angle 89.4°).</p>
 <div class="grid3">
  <figure class="fig"><a href="assets/rectify/side_wall_source.jpg"><img src="assets/rectify/side_wall_source.jpg" width="1051" height="1400" alt="Receding wall source with picked corners" loading="lazy"></a><figcaption>Input with picked corners</figcaption></figure>
- <figure class="fig"><a href="assets/rectify/side_wall_nearest.jpg"><img src="assets/rectify/side_wall_nearest.jpg" width="1110" height="615" alt="Receding wall nearest neighbor" loading="lazy"></a><figcaption>Nearest neighbor, 0.022 s</figcaption></figure>
- <figure class="fig"><a href="assets/rectify/side_wall_bilinear.jpg"><img src="assets/rectify/side_wall_bilinear.jpg" width="1110" height="615" alt="Receding wall bilinear" loading="lazy"></a><figcaption>Bilinear, 0.053 s</figcaption></figure>
+ <figure class="fig"><a href="assets/rectify/side_wall_nearest.jpg"><img src="assets/rectify/side_wall_nearest.jpg" width="1110" height="615" alt="Receding wall nearest neighbor" loading="lazy"></a><figcaption>Nearest neighbor, 0.027 s</figcaption></figure>
+ <figure class="fig"><a href="assets/rectify/side_wall_bilinear.jpg"><img src="assets/rectify/side_wall_bilinear.jpg" width="1110" height="615" alt="Receding wall bilinear" loading="lazy"></a><figcaption>Bilinear, 0.051 s</figcaption></figure>
 </div>
 <div class="labels two"><span>Nearest neighbor, 3×</span><span>Bilinear, 3×</span></div>
 <figure class="fig"><a href="assets/rectify/side_wall_zoom.jpg"><img src="assets/rectify/side_wall_zoom.jpg" width="852" height="420" alt="Receding wall zoom comparison" loading="lazy"></a></figure>
  <h3>Speed and quality</h3>
  <table><tr><th>Method</th><th>Time, 1.40 MP output</th><th>What it looks like</th></tr>
- <tr><td>Nearest neighbor</td><td class=n>0.044 s</td><td>Staircase edges on mortar lines and lettering; blocky where the source is magnified (far side of the plaza and of the wall)</td></tr>
- <tr><td>Bilinear</td><td class=n>0.090 s</td><td>Smooth edges, slightly softer fine texture</td></tr></table>
- <p>Times are the median of 5 runs. Bilinear is about 2.1× slower: it reads four pixels and does six multiply-adds per channel instead of one lookup. In absolute terms it is still under 0.1 s per megapixel, so I use bilinear for all mosaics. Nearest neighbor is only worth it for label maps or masks, where averaging values would be wrong.</p>
+ <tr><td>Nearest neighbor</td><td class=n>0.051 s</td><td>Staircase edges on mortar lines and lettering; blocky where the source is magnified (far side of the plaza and of the wall)</td></tr>
+ <tr><td>Bilinear</td><td class=n>0.092 s</td><td>Smooth edges, slightly softer fine texture</td></tr></table>
+ <p>Times are the median of 5 runs. Bilinear is about 1.8× slower: it reads four pixels and does six multiply-adds per channel instead of one lookup. In absolute terms it is still under 0.1 s per megapixel, so I use bilinear for all mosaics. Nearest neighbor is only worth it for label maps or masks, where averaging values would be wrong.</p>
 </section>
 
 <section id="a4">
@@ -114,19 +114,19 @@
  <p>The comparison crops show three versions of each seam. Overwrite has hard exposure edges, because the phone metered each frame separately. Feathering hides those edges but averages misaligned detail into soft double images; look at the Glade rail and the plaza tree line. The two-band blend keeps the smooth exposure transition and single sharp edges.</p>
  
 <h3>Campanile plaza</h3>
-<p>Three photos turning about 31° each from the bike racks past Sather Tower to the glass front of O'Brien Hall. The plane of the middle photo stretches the outer photos by more than 2×. The paving lines run straight across both seams. Canvas 4960×2296 px, built in 4.2 s.</p>
+<p>Three photos turning about 31° each from the bike racks past Sather Tower to the glass front of O'Brien Hall. The plane of the middle photo stretches the outer photos by more than 2×. The paving lines run straight across both seams. Canvas 4960×2296 px, built in 5.3 s.</p>
 <figure class="fig"><a href="assets/sources/plaza.jpg"><img src="assets/sources/plaza.jpg" width="1600" height="396" alt="Campanile plaza source photos" loading="lazy"></a><figcaption>Source photos, left to right; the middle one is the reference</figcaption></figure>
 <figure class="fig"><a href="assets/mosaics/plaza.jpg"><img src="assets/mosaics/plaza.jpg" width="2400" height="1111" alt="Campanile plaza mosaic" loading="lazy"></a><figcaption>Mosaic: bilinear warp, two-band blend</figcaption></figure>
 <div class="labels three"><span>Overwrite</span><span>Feather</span><span>Two-band</span></div>
 <figure class="fig"><a href="assets/mosaics/plaza_seams.jpg"><img src="assets/mosaics/plaza_seams.jpg" width="1824" height="400" alt="Campanile plaza blending comparison crop" loading="lazy"></a></figure>
 <h3>Memorial Glade terrace</h3>
-<p>Taken from the balustrade above the Glade at sunset. Distant buildings and the terrace line up within a few pixels. The granite rail is only a meter away and shows a small step at the left seam. My phone moved a few centimeters between shots, and one homography cannot align objects at 1 m and 100 m at the same time. Canvas 2947×1699 px, built in 2.1 s.</p>
+<p>Taken from the balustrade above the Glade at sunset. Distant buildings and the terrace line up within a few pixels. The granite rail is only a meter away and shows a small step at the left seam. My phone moved a few centimeters between shots, and one homography cannot align objects at 1 m and 100 m at the same time. Canvas 2947×1699 px, built in 3.4 s.</p>
 <figure class="fig"><a href="assets/sources/glade.jpg"><img src="assets/sources/glade.jpg" width="1600" height="396" alt="Memorial Glade terrace source photos" loading="lazy"></a><figcaption>Source photos, left to right; the middle one is the reference</figcaption></figure>
 <figure class="fig"><a href="assets/mosaics/glade.jpg"><img src="assets/mosaics/glade.jpg" width="2400" height="1383" alt="Memorial Glade terrace mosaic" loading="lazy"></a><figcaption>Mosaic: bilinear warp, two-band blend</figcaption></figure>
 <div class="labels three"><span>Overwrite</span><span>Feather</span><span>Two-band</span></div>
 <figure class="fig"><a href="assets/mosaics/glade_seams.jpg"><img src="assets/mosaics/glade_seams.jpg" width="1824" height="400" alt="Memorial Glade terrace blending comparison crop" loading="lazy"></a></figure>
 <h3>Dorm lobby</h3>
-<p>An indoor corner at night with longer exposures and slight motion blur. The wavy door film, the door frame and the Cal sign continue across both seams. Canvas 2999×1637 px, built in 2.0 s.</p>
+<p>An indoor corner at night with longer exposures and slight motion blur. The wavy door film, the door frame and the Cal sign continue across both seams. Canvas 2999×1637 px, built in 2.5 s.</p>
 <figure class="fig"><a href="assets/sources/lobby.jpg"><img src="assets/sources/lobby.jpg" width="1600" height="396" alt="Dorm lobby source photos" loading="lazy"></a><figcaption>Source photos, left to right; the middle one is the reference</figcaption></figure>
 <figure class="fig"><a href="assets/mosaics/lobby.jpg"><img src="assets/mosaics/lobby.jpg" width="2400" height="1309" alt="Dorm lobby mosaic" loading="lazy"></a><figcaption>Mosaic: bilinear warp, two-band blend</figcaption></figure>
 <div class="labels three"><span>Overwrite</span><span>Feather</span><span>Two-band</span></div>
@@ -151,11 +151,105 @@
  <div class="grid2"><a href="assets/mosaics/lobby.jpg"><img src="assets/mosaics/lobby.jpg" width="2400" height="1309" alt="lobby planar" loading="lazy"></a><a href="assets/cylinder/lobby.jpg"><img src="assets/cylinder/lobby.jpg" width="2006" height="1143" alt="lobby cylindrical" loading="lazy"></a></div>
 </section>
 
+<section id="b1" class="print-break">
+ <p class="eyebrow">Part B / Feature matching for autostitching</p>
+ <div class="section-title"><span class="num">B.1</span><h2>Harris corners and ANMS</h2></div>
+ <p class="lede">Part B replaces the hand-picked points with the pipeline of Brown, Szeliski and Winder, <em>Multi-Image Matching using Multi-Scale Oriented Patches</em> (MOPS), at a single scale. Everything runs on the 0.3125× working photos (1445×1085, grayscale).</p>
+ <ol class="steps">
+  <li>Corner strength is the harmonic mean of the structure tensor's eigenvalues, f = det M / tr M (MOPS Section 2). The gradients come from a Gaussian with σ<sub>d</sub> = 1 px and are averaged with σ<sub>i</sub> = 1.5 px.</li>
+  <li>Corners are 3×3 local maxima of f above 0.1% of its maximum. Points within 20 px of the border are dropped, so every corner has a full 40×40 descriptor window. This leaves 14,499–16,868 corners per photo.</li>
+  <li>Adaptive non-maximal suppression (MOPS Section 3). Each corner's radius is the distance to the nearest corner that is clearly stronger, r<sub>i</sub> = min ‖x<sub>i</sub> − x<sub>j</sub>‖ over f(x<sub>i</sub>) &lt; 0.9 f(x<sub>j</sub>). I keep the 500 corners with the largest radii. After sorting by strength, only earlier points can be stronger, so the search runs in blocks of 512 against that prefix.</li>
+ </ol>
+ <p>Taking the 500 strongest corners instead puts most of them in the trees and on one high-contrast building edge, with almost none on the paving or walls. ANMS spreads them over the whole frame: no two kept corners are closer than 32 px.</p>
+ 
+<div class="keep"><h3>Plaza, middle photo</h3>
+<div class="labels three"><span>All Harris corners (16,868)</span><span>Strongest 500</span><span>ANMS 500</span></div>
+<div class="grid3"><a href="assets/b_corners/plaza_harris.jpg"><img src="assets/b_corners/plaza_harris.jpg" width="1445" height="1085" alt="plaza all Harris corners" loading="lazy"></a><a href="assets/b_corners/plaza_top500.jpg"><img src="assets/b_corners/plaza_top500.jpg" width="1445" height="1085" alt="plaza strongest 500 corners" loading="lazy"></a><a href="assets/b_corners/plaza_anms.jpg"><img src="assets/b_corners/plaza_anms.jpg" width="1445" height="1085" alt="plaza ANMS corners" loading="lazy"></a></div></div>
+<div class="keep"><h3>Glade, middle photo</h3>
+<div class="labels three"><span>All Harris corners (15,950)</span><span>Strongest 500</span><span>ANMS 500</span></div>
+<div class="grid3"><a href="assets/b_corners/glade_harris.jpg"><img src="assets/b_corners/glade_harris.jpg" width="1445" height="1085" alt="glade all Harris corners" loading="lazy"></a><a href="assets/b_corners/glade_top500.jpg"><img src="assets/b_corners/glade_top500.jpg" width="1445" height="1085" alt="glade strongest 500 corners" loading="lazy"></a><a href="assets/b_corners/glade_anms.jpg"><img src="assets/b_corners/glade_anms.jpg" width="1445" height="1085" alt="glade ANMS corners" loading="lazy"></a></div></div>
+<div class="keep"><h3>Lobby, middle photo</h3>
+<div class="labels three"><span>All Harris corners (14,499)</span><span>Strongest 500</span><span>ANMS 500</span></div>
+<div class="grid3"><a href="assets/b_corners/lobby_harris.jpg"><img src="assets/b_corners/lobby_harris.jpg" width="1445" height="1085" alt="lobby all Harris corners" loading="lazy"></a><a href="assets/b_corners/lobby_top500.jpg"><img src="assets/b_corners/lobby_top500.jpg" width="1445" height="1085" alt="lobby strongest 500 corners" loading="lazy"></a><a href="assets/b_corners/lobby_anms.jpg"><img src="assets/b_corners/lobby_anms.jpg" width="1445" height="1085" alt="lobby ANMS corners" loading="lazy"></a></div></div>
+</section>
+
+<section id="b2">
+ <div class="section-title"><span class="num">B.2</span><h2>Feature descriptors</h2></div>
+ <ol class="steps">
+  <li>The photo is blurred with σ = 1.25 px. Around each ANMS corner, the 40×40 window is averaged over 5×5 blocks, which gives an 8×8 patch sampled every 5 px (MOPS Section 4, without rotation and without the wavelet step).</li>
+  <li>The patch is bias/gain-normalized: subtract its mean, divide by its standard deviation. The 64 values form the descriptor.</li>
+ </ol>
+ <p>The 5-px sampling and the blur make the descriptor tolerant to the 1–2 px corner jitter and to the small scale change across a 30° turn. The normalization removes the exposure difference between frames. Below are eight matched features from Plaza 2 → 3, with their locations in both photos.</p>
+ <div class="note">Rows: the 40×40 window in photo 2, its 8×8 descriptor, the descriptor of its match in photo 3, and the matched window. Each column of descriptors shares one gray scale.</div>
+ <figure class="fig"><a href="assets/b_descriptors/plaza_examples.jpg"><img src="assets/b_descriptors/plaza_examples.jpg" width="1510" height="710" alt="eight example descriptors and windows" loading="lazy"></a></figure>
+ <figure class="fig"><a href="assets/b_descriptors/plaza_locations.jpg"><img src="assets/b_descriptors/plaza_locations.jpg" width="1600" height="597" alt="locations of the example features" loading="lazy"></a><figcaption>Example windows (40×40 px) in Plaza photos 2 and 3</figcaption></figure>
+</section>
+
+<section id="b3">
+ <div class="section-title"><span class="num">B.3</span><h2>Feature matching</h2></div>
+ <p class="lede">Each descriptor in photo 1 is compared with all 500 descriptors in photo 2 by squared distance (SSD). Following Lowe, a match is kept only if its nearest neighbor is much better than the second nearest: e<sub>1-NN</sub> / e<sub>2-NN</sub> &lt; 0.5.</p>
+ <p>When two features pick the same target, only the one with the lower ratio keeps it. To choose the threshold I redrew Figure 6b of the paper for my own photos. For all 500 features of each of the six pairs, the nearest neighbor counts as correct if the final homography from B.4 maps the feature within 3 px of it. A threshold of 0.5 keeps 438 of 516 correct nearest neighbors (85%) and 248 of 2484 wrong ones (10%). Many of the "wrong" ones that survive are correct matches at a second depth (see B.4), so the true error rate is lower.</p>
+ <figure class="fig"><a href="assets/b_matches/ratio_histogram.jpg"><img src="assets/b_matches/ratio_histogram.jpg" width="1200" height="512" alt="ratio histogram" loading="lazy"></a><figcaption>e<sub>1-NN</sub> / e<sub>2-NN</sub> for correct and wrong nearest neighbors, six pairs pooled</figcaption></figure>
+ <p>The match figures show every match that passes the ratio test. Green matches are the RANSAC inliers from B.4, and red ones were rejected.</p>
+ <figure class="fig"><a href="assets/b_matches/plaza_08_09.jpg"><img src="assets/b_matches/plaza_08_09.jpg" width="1600" height="596" alt="Plaza 1 → 2 matches" loading="lazy"></a><figcaption>Plaza 1 → 2: 88 matches, 44 RANSAC inliers (green), 44 rejected (red)</figcaption></figure><figure class="fig"><a href="assets/b_matches/plaza_09_10.jpg"><img src="assets/b_matches/plaza_09_10.jpg" width="1600" height="596" alt="Plaza 2 → 3 matches" loading="lazy"></a><figcaption>Plaza 2 → 3: 85 matches, 55 RANSAC inliers (green), 30 rejected (red)</figcaption></figure><figure class="fig"><a href="assets/b_matches/glade_19_20.jpg"><img src="assets/b_matches/glade_19_20.jpg" width="1600" height="596" alt="Glade 1 → 2 matches" loading="lazy"></a><figcaption>Glade 1 → 2: 113 matches, 87 RANSAC inliers (green), 26 rejected (red)</figcaption></figure><figure class="fig"><a href="assets/b_matches/glade_20_21.jpg"><img src="assets/b_matches/glade_20_21.jpg" width="1600" height="596" alt="Glade 2 → 3 matches" loading="lazy"></a><figcaption>Glade 2 → 3: 171 matches, 140 RANSAC inliers (green), 31 rejected (red)</figcaption></figure><figure class="fig"><a href="assets/b_matches/lobby_38_39.jpg"><img src="assets/b_matches/lobby_38_39.jpg" width="1600" height="596" alt="Lobby 1 → 2 matches" loading="lazy"></a><figcaption>Lobby 1 → 2: 74 matches, 44 RANSAC inliers (green), 30 rejected (red)</figcaption></figure><figure class="fig"><a href="assets/b_matches/lobby_39_40.jpg"><img src="assets/b_matches/lobby_39_40.jpg" width="1600" height="596" alt="Lobby 2 → 3 matches" loading="lazy"></a><figcaption>Lobby 2 → 3: 130 matches, 63 RANSAC inliers (green), 67 rejected (red)</figcaption></figure>
+</section>
+
+<section id="b4">
+ <div class="section-title"><span class="num">B.4</span><h2>RANSAC and automatic mosaics</h2></div>
+ <ol class="steps">
+  <li>Pick 4 random matches and solve H exactly with <code>computeH</code> from A.2.</li>
+  <li>Count the inliers: matches that H maps within 3 px of their partner (working scale, 9.6 px at full resolution). Keep the largest inlier set.</li>
+  <li>Run N = log(1 − 0.999) / log(1 − w⁴) rounds, where w is the best inlier fraction so far, with at least 500 rounds. The random generator is seeded, so results are reproducible.</li>
+  <li>Refit H by least squares on all inliers, recount the inliers with that H, and refit once more. The final H is fit in full-resolution pixels so that it can be compared with Part A.</li>
+  <li>Chain the pair homographies into the middle photo and reuse the A.4 warp and two-band blend unchanged.</li>
+ </ol>
+ <div class="scroll"><table><tr><th>Pair</th><th>Matches</th><th>Inliers</th><th>Rounds</th><th>Inlier RMS</th><th>Manual H, hand points</th><th>Auto H, hand points</th></tr><tr><td>Plaza 1 → 2</td><td class=n>88</td><td class=n>44</td><td class=n>500</td><td class=n>4.2</td><td class=n>7.4</td><td class=n>14.8</td></tr><tr><td>Plaza 2 → 3</td><td class=n>85</td><td class=n>55</td><td class=n>500</td><td class=n>5.1</td><td class=n>12.1</td><td class=n>17.7</td></tr><tr><td>Glade 1 → 2</td><td class=n>113</td><td class=n>87</td><td class=n>500</td><td class=n>3.5</td><td class=n>4.7</td><td class=n>5.8</td></tr><tr><td>Glade 2 → 3</td><td class=n>171</td><td class=n>140</td><td class=n>500</td><td class=n>5.0</td><td class=n>5.0</td><td class=n>5.3</td></tr><tr><td>Lobby 1 → 2</td><td class=n>74</td><td class=n>44</td><td class=n>500</td><td class=n>4.8</td><td class=n>6.0</td><td class=n>6.5</td></tr><tr><td>Lobby 2 → 3</td><td class=n>130</td><td class=n>63</td><td class=n>500</td><td class=n>5.6</td><td class=n>7.7</td><td class=n>16.8</td></tr></table></div>
+ <p>All RMS values are in full-resolution pixels. The last two columns apply both homographies to the hand-picked points from A.2. The automatic H fits its own inliers to 3.5–5.6 px. It does worse on the hand-picked points in the plaza and in Lobby 2 → 3 because of parallax. The phone moved a few centimeters between shots, so the paving 2–5 m away and the buildings 30 m away need slightly different homographies. My hand-picked points mix both depths. RANSAC keeps the larger consistent group and rejects the other one as outliers. In Plaza 1 → 2, 35 of the 44 rejected matches agree with one other homography: the paving in the lower half of the frame. In Plaza 2 → 3, the paving won and the far scene was rejected. The red matches in those figures are therefore mostly correct matches at the other depth, not noise.</p>
+ 
+<h3>Campanile plaza</h3>
+<p>The largest change from Part A: the left photo is aligned on the far scene and the right photo on the paving, because RANSAC picked a different depth for each pair. Both seams still line up where the blend switches photos.</p>
+<div class="keep"><div class="labels two"><span>Manual (A.4)</span><span>Automatic (B.4)</span></div>
+<div class="grid2"><a href="assets/mosaics/plaza.jpg"><img src="assets/mosaics/plaza.jpg" width="2400" height="1111" alt="plaza manual mosaic" loading="lazy"></a><a href="assets/b_mosaics/plaza_auto.jpg"><img src="assets/b_mosaics/plaza_auto.jpg" width="2400" height="1131" alt="plaza automatic mosaic" loading="lazy"></a></div></div>
+<div class="keep"><div class="labels two" style="margin-top:14px"><span>Manual, left and right seams</span><span>Automatic, same windows</span></div>
+<figure class="fig"><a href="assets/b_mosaics/plaza_compare.jpg"><img src="assets/b_mosaics/plaza_compare.jpg" width="1212" height="812" alt="plaza seam comparison" loading="lazy"></a><figcaption>600×400 px windows centered on the two seams, at the same place in the reference photo's coordinates</figcaption></figure></div>
+<h3>Memorial Glade terrace</h3>
+<p>The distant buildings dominate the matches, so the automatic and hand-picked homographies are almost the same (5.3–5.8 px against 4.7–5.0 px on the hand-picked points).</p>
+<div class="keep"><div class="labels two"><span>Manual (A.4)</span><span>Automatic (B.4)</span></div>
+<div class="grid2"><a href="assets/mosaics/glade.jpg"><img src="assets/mosaics/glade.jpg" width="2400" height="1383" alt="glade manual mosaic" loading="lazy"></a><a href="assets/b_mosaics/glade_auto.jpg"><img src="assets/b_mosaics/glade_auto.jpg" width="2400" height="1382" alt="glade automatic mosaic" loading="lazy"></a></div></div>
+<div class="keep"><div class="labels two" style="margin-top:14px"><span>Manual, left and right seams</span><span>Automatic, same windows</span></div>
+<figure class="fig"><a href="assets/b_mosaics/glade_compare.jpg"><img src="assets/b_mosaics/glade_compare.jpg" width="1212" height="812" alt="glade seam comparison" loading="lazy"></a><figcaption>600×400 px windows centered on the two seams, at the same place in the reference photo's coordinates</figcaption></figure></div>
+<h3>Dorm lobby</h3>
+<p>Indoors, the matches spread over the door film, the wall tiles and the sofa. Both seams look the same in the two versions.</p>
+<div class="keep"><div class="labels two"><span>Manual (A.4)</span><span>Automatic (B.4)</span></div>
+<div class="grid2"><a href="assets/mosaics/lobby.jpg"><img src="assets/mosaics/lobby.jpg" width="2400" height="1309" alt="lobby manual mosaic" loading="lazy"></a><a href="assets/b_mosaics/lobby_auto.jpg"><img src="assets/b_mosaics/lobby_auto.jpg" width="2400" height="1322" alt="lobby automatic mosaic" loading="lazy"></a></div></div>
+<div class="keep"><div class="labels two" style="margin-top:14px"><span>Manual, left and right seams</span><span>Automatic, same windows</span></div>
+<figure class="fig"><a href="assets/b_mosaics/lobby_compare.jpg"><img src="assets/b_mosaics/lobby_compare.jpg" width="1212" height="812" alt="lobby seam comparison" loading="lazy"></a><figcaption>600×400 px windows centered on the two seams, at the same place in the reference photo's coordinates</figcaption></figure></div>
+ <p>The automatic mosaics need no clicking at all. The full Part B run (corners, descriptors, matching and RANSAC for six pairs, then three mosaics) takes about 30 s. Where one depth dominates, as in the Glade, they match the manual result. Where two depths compete, they commit to one, while my hand-picked points compromised between them.</p>
+</section>
+
+<section id="b5">
+ <div class="section-title"><span class="num">B.5</span><h2>Bells &amp; whistles: panorama recognition</h2></div>
+ <p class="lede">Given an unordered set of photos, find which ones belong to the same panorama, then stitch each panorama without being told the order or the reference photo.</p>
+ <p>The input is the nine mosaic photos plus three unrelated photos from the same walk (the rectification photos from A.3), in a fixed shuffled order. Photos 3 and 11 even show the same building, but from different positions and with different lenses.</p>
+ <figure class="fig"><a href="assets/b_pano/input.jpg"><img src="assets/b_pano/input.jpg" width="1600" height="398" alt="twelve shuffled input photos" loading="lazy"></a><figcaption>Input: 12 photos in shuffled order</figcaption></figure>
+ <ol class="steps">
+  <li>Run B.1–B.4 on every pair of photos (66 pairs, at most 2000 RANSAC rounds each).</li>
+  <li>Accept a pair when the inliers pass the test of Brown and Lowe (IJCV 2007): n<sub>inliers</sub> &gt; 8 + 0.3 · n<sub>matches</sub>. Random matches rarely agree on one homography, so false pairs fail this test by a wide margin.</li>
+  <li>The connected components of the accepted pairs are the panoramas. Photos without an accepted pair are left out.</li>
+  <li>In each panorama, the photo with the most inliers in total becomes the reference. The others are chained to it along the maximum spanning tree of inlier counts, then sorted left to right by where their centers land. The warp and blend are the same as in A.4.</li>
+ </ol>
+ <div class="grid2"><div><a href="assets/b_pano/inlier_matrix.jpg"><img src="assets/b_pano/inlier_matrix.jpg" width="884" height="782" alt="inlier matrix" loading="lazy"></a></div>
+ <div class="scroll"><table><tr><th>Pair</th><th>Matches</th><th>Inliers</th><th>8 + 0.3 n</th><th>Result</th></tr><tr><td>1 – 5</td><td class=n>55</td><td class=n>36</td><td class=n>24.5</td><td>accepted</td></tr><tr><td>1 – 10</td><td class=n>169</td><td class=n>134</td><td class=n>58.7</td><td>accepted</td></tr><tr><td>2 – 6</td><td class=n>130</td><td class=n>63</td><td class=n>47.0</td><td>accepted</td></tr><tr><td>2 – 9</td><td class=n>70</td><td class=n>40</td><td class=n>29.0</td><td>accepted</td></tr><tr><td>4 – 12</td><td class=n>88</td><td class=n>44</td><td class=n>34.4</td><td>accepted</td></tr><tr><td>5 – 10</td><td class=n>113</td><td class=n>87</td><td class=n>41.9</td><td>accepted</td></tr><tr><td>8 – 12</td><td class=n>94</td><td class=n>58</td><td class=n>36.2</td><td>accepted</td></tr><tr><td>4 – 8</td><td class=n>21</td><td class=n>8</td><td class=n>14.3</td><td>rejected</td></tr><tr><td>6 – 9</td><td class=n>34</td><td class=n>12</td><td class=n>18.2</td><td>rejected</td></tr></table></div></div>
+ <p>The test accepts exactly the 7 overlapping pairs, including Glade photos 5 and 1, which are 37° apart and share a narrow strip. The two closest rejections are the outer Plaza photos (4 and 8, 61° apart, with almost no overlap) and the outer Lobby photos (6 and 9). Photos 3, 7 and 11 join nothing. The three panoramas are found with the same reference photos I chose by hand in Part A.</p>
+ <figure class="fig"><a href="assets/b_pano/pano0.jpg"><img src="assets/b_pano/pano0.jpg" width="1600" height="921" alt="recognized panorama 1" loading="lazy"></a><figcaption>Panorama 1 (Glade): photos 5, 10, 1, reference 10</figcaption></figure><figure class="fig"><a href="assets/b_pano/pano1.jpg"><img src="assets/b_pano/pano1.jpg" width="1600" height="887" alt="recognized panorama 2" loading="lazy"></a><figcaption>Panorama 2 (Lobby): photos 9, 2, 6, reference 2</figcaption></figure><figure class="fig"><a href="assets/b_pano/pano2.jpg"><img src="assets/b_pano/pano2.jpg" width="1600" height="754" alt="recognized panorama 3" loading="lazy"></a><figcaption>Panorama 3 (Plaza): photos 4, 12, 8, reference 12</figcaption></figure>
+</section>
+
 <section id="notes">
  <div class="section-title"><span class="num">—</span><h2>Notes</h2></div>
- <p>Everything is NumPy, with SciPy only for the Gaussian blur and Pillow for file input/output. No OpenCV or scikit-image homography or warping functions are used. <code>python code/main.py</code> regenerates every figure in about 30 s on a laptop. The correspondences live in <code>data/points/</code>, and <code>code/pick_points.py</code> re-clicks any pair with matplotlib's <code>ginput</code>.</p>
+ <p>Everything is NumPy, with SciPy only for Gaussian blurs and local maxima, Pillow for file input/output, and Matplotlib for the histogram. No OpenCV or scikit-image feature, matching, RANSAC, homography or warping functions are used. <code>python code/main.py</code> regenerates every figure in about 2 minutes on a laptop. The Part A correspondences live in <code>data/points/</code>, and <code>code/pick_points.py</code> re-clicks any pair with matplotlib's <code>ginput</code>.</p>
  <p>AI assistance was used to write this webpage. The photos are mine.</p>
+ <p>Part B (the code in <code>features.py</code>, <code>ransac.py</code>, <code>automosaic.py</code>, <code>panorama.py</code> and <code>partb.py</code>, and the Part B sections of this page) was written by Claude (AI).</p>
 </section>
-<footer>CS180 · Project 4A · Fall 2026</footer>
+<footer>CS180 · Project 4 · Fall 2026</footer>
 </main>
 </body></html>

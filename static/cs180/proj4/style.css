@@ -44,6 +44,7 @@ td.n{text-align:right;padding-right:16px}
 .matrices div>span{display:block;font:11px var(--mono);margin-bottom:4px}
 .labels{display:grid;font:11px var(--mono);text-transform:uppercase;letter-spacing:.08em;margin:0 0 4px}
 .labels.three{grid-template-columns:repeat(3,1fr)}.labels.two{grid-template-columns:1fr 1fr}
+.scroll{overflow-x:auto;max-width:100%}
 .note{font-size:14px;max-width:880px;border:var(--rule);padding:12px 16px;margin:16px 0}
 footer{padding:30px 0 60px;font:11px/1.8 var(--mono)}
 @media screen and (max-width:820px){.hero-row,.grid2,.grid3{grid-template-columns:1fr}.section-title{grid-template-columns:1fr;gap:8px}.section-title .num{justify-self:start}.masthead nav{display:none}.eq{font-size:12px}}
@@ -60,4 +61,5 @@ footer{padding:30px 0 60px;font:11px/1.8 var(--mono)}
   .fig,.plate,table,.eq,.matrices{break-inside:avoid}
   .eq{font-size:7.4pt;padding:10px 12px;max-width:none}
   .print-break{break-before:page}
+  .keep{break-inside:avoid}
 }
