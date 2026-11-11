@@ -4,7 +4,7 @@
 <title>Photo Mosaics - CS180 Project 4 - Yuan</title><link rel="icon" href="data:,"><link rel="stylesheet" href="style.css"></head>
 <body>
 <header class="masthead"><a class="brand" href="#top"><span class="brand-square">04</span><span>CS180 / FIELD NOTES</span></a>
-<nav><a href="#a1">A.1</a><a href="#a2">A.2</a><a href="#a3">A.3</a><a href="#a4">A.4</a><a href="#a5">A.5</a><a href="#b1">B.1</a><a href="#b2">B.2</a><a href="#b3">B.3</a><a href="#b4">B.4</a><a href="#b5">B.5</a></nav></header>
+<nav><a href="#a1">A.1</a><a href="#a2">A.2</a><a href="#a3">A.3</a><a href="#a4">A.4</a><a href="#a5">A.5</a><a href="#b1">B.1</a><a href="#b2">B.2</a><a href="#b3">B.3</a><a href="#b4">B.4</a><a href="#b5">B.5</a><a href="#circle">360°</a></nav></header>
 <main class="page" id="top">
 <section class="hero">
  <p class="eyebrow">Computational photography / Project 04 / Parts A and B</p>
@@ -244,11 +244,26 @@
  <figure class="fig"><a href="assets/b_pano/pano0.jpg"><img src="assets/b_pano/pano0.jpg" width="1600" height="921" alt="recognized panorama 1" loading="lazy"></a><figcaption>Panorama 1 (Glade): photos 5, 10, 1, reference 10</figcaption></figure><figure class="fig"><a href="assets/b_pano/pano1.jpg"><img src="assets/b_pano/pano1.jpg" width="1600" height="887" alt="recognized panorama 2" loading="lazy"></a><figcaption>Panorama 2 (Lobby): photos 9, 2, 6, reference 2</figcaption></figure><figure class="fig"><a href="assets/b_pano/pano2.jpg"><img src="assets/b_pano/pano2.jpg" width="1600" height="754" alt="recognized panorama 3" loading="lazy"></a><figcaption>Panorama 3 (Plaza): photos 4, 12, 8, reference 12</figcaption></figure>
 </section>
 
+<section id="circle">
+ <div class="section-title"><span class="num">360°</span><h2>Extra: full circles from every photo</h2></div>
+ <p class="lede">Parts A and B use three photos per mosaic, because on a plane the stretching grows quickly with angle and nothing 90° or more from the center fits at all. I shot a full sweep at each place, and automatic matching makes it easy to use every photo. On a cylinder, the 16 Glade photos and the 12 Plaza photos each close into a 360° panorama.</p>
+ <ol class="steps">
+  <li>Each photo is matched with the next one, and the last photo with the first, using B.1–B.4. Every pair matched without help.</li>
+  <li>Chaining 11–15 homographies would let projective errors pile up. Instead, the RANSAC inliers of each pair give only the camera rotation: the points become rays through the EXIF focal length, and a Kabsch fit finds the rotation between the two sets of rays. The steps are 11–40°.</li>
+  <li>Loop closure. The steps add up to 364.0° (Glade) and 360.4° (Plaza), so after a full circle the chained rotation misses the first photo by 2.7° and 3.4°. That error is spread evenly over the photos, so the circle closes.</li>
+  <li>Straightening, as in Brown and Lowe (2007): when the camera turns about a vertical axis, every camera x-axis is horizontal, so the vertical is the direction perpendicular to all of them. My phone was tilted 5–6° down. Without this step, the horizon would wave up and down around the circle.</li>
+  <li>Rendering uses the A.5 cylinder sampler with H = K R<sup>T</sup> K⁻¹ for each photo. One change was needed: for photos that face more than 90° away from the first one, the sign of H now comes from the rotation instead of from the photo center.</li>
+ </ol>
+ <div class="scroll"><table><tr><th>Sweep</th><th>Photos</th><th>Inliers per pair</th><th>Sum of turns</th><th>Loop error</th><th>Tilt</th><th>Size px</th></tr><tr><td>Memorial Glade terrace</td><td class=n>16</td><td class=n>33–140</td><td class=n>364.0°</td><td class=n>2.7°</td><td class=n>5.8°</td><td class=n>4196×648</td></tr><tr><td>Campanile plaza</td><td class=n>12</td><td class=n>18–86</td><td class=n>360.4°</td><td class=n>3.4°</td><td class=n>5.1°</td><td class=n>4199×643</td></tr></table></div>
+ <figure class="fig"><a href="assets/b_360/glade_360.jpg"><img src="assets/b_360/glade_360.jpg" width="4196" height="648" alt="glade 360 degree panorama" loading="lazy"></a><figcaption>Memorial Glade terrace: all 16 photos, 360°. The left and right edges meet.</figcaption></figure><figure class="fig"><a href="assets/b_360/plaza_360.jpg"><img src="assets/b_360/plaza_360.jpg" width="4199" height="643" alt="plaza 360 degree panorama" loading="lazy"></a><figcaption>Campanile plaza: all 12 photos, 360°. The left and right edges meet.</figcaption></figure>
+ <p>The images are cropped to the rows that every direction covers. Distant buildings line up all the way around. Small steps remain on things a meter or two from the phone, such as the Glade balustrade and the Plaza paving: one rotation per photo cannot remove parallax from a handheld sweep.</p>
+</section>
+
 <section id="notes">
  <div class="section-title"><span class="num">—</span><h2>Notes</h2></div>
- <p>Everything is NumPy, with SciPy only for Gaussian blurs and local maxima, Pillow for file input/output, and Matplotlib for the histogram. No OpenCV or scikit-image feature, matching, RANSAC, homography or warping functions are used. <code>python code/main.py</code> regenerates every figure in about 2 minutes on a laptop. The Part A correspondences live in <code>data/points/</code>, and <code>code/pick_points.py</code> re-clicks any pair with matplotlib's <code>ginput</code>.</p>
+ <p>Everything is NumPy, with SciPy only for Gaussian blurs and local maxima, Pillow for file input/output, and Matplotlib for the histogram. No OpenCV or scikit-image feature, matching, RANSAC, homography or warping functions are used. <code>python code/main.py</code> regenerates every figure in about 3 minutes on a laptop. The Part A correspondences live in <code>data/points/</code>, and <code>code/pick_points.py</code> re-clicks any pair with matplotlib's <code>ginput</code>.</p>
  <p>AI assistance was used to write this webpage. The photos are mine.</p>
- <p>Part B (the code in <code>features.py</code>, <code>ransac.py</code>, <code>automosaic.py</code>, <code>panorama.py</code> and <code>partb.py</code>, and the Part B sections of this page) was written by Claude (AI).</p>
+ <p>Part B (the code in <code>features.py</code>, <code>ransac.py</code>, <code>automosaic.py</code>, <code>panorama.py</code>, <code>panorama360.py</code> and <code>partb.py</code>, and the Part B and 360° sections of this page) was written by Claude (AI).</p>
 </section>
 <footer>CS180 · Project 4 · Fall 2026</footer>
 </main>
